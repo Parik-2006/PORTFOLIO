@@ -1,0 +1,49 @@
+IMPORTANT: Profile Image Setup
+===============================
+
+Your profile photo has been uploaded to this chat. To add it to your portfolio:
+
+STEP 1: Download Your Profile Image
+------------------------------------
+1. Scroll up in this chat to find your uploaded profile photo
+2. Right-click on the image (or long-press on mobile)
+3. Select "Save Image As..." or "Download Image"
+4. Save it with the exact filename: PASSPORT_SIZE_PHOTO.jpg
+
+STEP 2: Place in Portfolio Folder
+----------------------------------
+Move or copy the saved image file to the same folder where you extracted:
+- index.html
+- projects.html
+- styles.css
+- script.js
+- projects.js
+
+The final folder structure should look like:
+
+    your-portfolio-folder/
+    ├── PASSPORT_SIZE_PHOTO.jpg  ← Your profile image
+    ├── index.html
+    ├── projects.html
+    ├── styles.css
+    ├── script.js
+    ├── projects.js
+    └── README.md
+
+STEP 3: Open Portfolio
+-----------------------
+Double-click index.html to open your portfolio in a web browser.
+
+Your profile photo will appear in the hero section with a circular frame
+and animated background effect.
+
+Image Specifications:
+- Filename: PASSPORT_SIZE_PHOTO.jpg (exact match required)
+- Current dimensions: ~300x400px (works perfectly)
+- Format: JPG
+- The image will be automatically cropped to a circle
+
+Troubleshooting:
+- If image doesn't appear: Check the filename is exactly "PASSPORT_SIZE_PHOTO.jpg"
+- If image looks stretched: The code automatically handles aspect ratios
+- If you want to change the image: Replace PASSPORT_SIZE_PHOTO.jpg with a new one
