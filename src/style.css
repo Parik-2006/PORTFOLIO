@@ -1,0 +1,258 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── CSS VARIABLES ─────────────────────────────────────────────────────── */
+:root {
+  --cream-50:  #FEFDF8;
+  --cream-100: #FDFAF0;
+  --cream-200: #F9F3DC;
+  --cream-300: #F2E9C4;
+  --gold-400:  #D4A843;
+  --gold-500:  #C9963A;
+  --ink-900:   #1A1208;
+  --ink-700:   #3D2E12;
+  --ink-500:   #6B5B3E;
+  --ink-300:   #A89880;
+}
+
+/* ─── BASE RESET & BODY ─────────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--cream-100);
+  /* Subtle paper grain texture via SVG filter */
+  position: relative;
+}
+
+/* Warm paper grain overlay */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  background-size: 256px 256px;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.5;
+}
+
+/* ─── SELECTION ─────────────────────────────────────────────────────────── */
+::selection {
+  background: rgba(212, 168, 67, 0.25);
+  color: var(--ink-900);
+}
+
+/* ─── SCROLLBAR ─────────────────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--cream-200);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--gold-400);
+  border-radius: 3px;
+}
+
+/* ─── GLASS CARD ────────────────────────────────────────────────────────── */
+.glass-card {
+  background: rgba(253, 250, 240, 0.65);
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  border: 1px solid rgba(212, 168, 67, 0.18);
+  box-shadow:
+    0 4px 24px rgba(26, 18, 8, 0.06),
+    0 1px 0 rgba(255,255,255,0.6) inset,
+    0 -1px 0 rgba(212, 168, 67, 0.08) inset;
+  transition: box-shadow 0.3s ease, transform 0.3s ease, border-color 0.3s ease;
+}
+
+.glass-card:hover {
+  border-color: rgba(212, 168, 67, 0.35);
+  box-shadow:
+    0 8px 40px rgba(26, 18, 8, 0.1),
+    0 1px 0 rgba(255,255,255,0.8) inset;
+}
+
+/* ─── PROJECT CARD 3D EFFECT ────────────────────────────────────────────── */
+.project-card {
+  transform-style: preserve-3d;
+  transition: transform 0.35s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.35s ease, border-color 0.3s ease;
+  will-change: transform;
+}
+
+.project-card:hover {
+  transform: translateY(-6px) rotateX(1.5deg) rotateY(-0.5deg);
+  box-shadow:
+    0 20px 60px rgba(26, 18, 8, 0.14),
+    0 4px 20px rgba(212, 168, 67, 0.1),
+    0 1px 0 rgba(255, 255, 255, 0.9) inset;
+  border-color: rgba(212, 168, 67, 0.4);
+}
+
+/* Animated bottom line on project cards */
+.project-line {
+  height: 1px;
+  background: linear-gradient(90deg, var(--gold-400), transparent);
+  margin-top: 1.5rem;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+}
+.project-card:hover .project-line {
+  transform: scaleX(1);
+}
+
+/* ─── SKILL BADGES ──────────────────────────────────────────────────────── */
+.skill-badge {
+  display: inline-block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  color: var(--ink-700);
+  background: rgba(212, 168, 67, 0.1);
+  border: 1px solid rgba(212, 168, 67, 0.2);
+  padding: 0.3rem 0.75rem;
+  border-radius: 9999px;
+  transition: background 0.2s, border-color 0.2s, color 0.2s, transform 0.2s;
+}
+
+.skill-badge:hover {
+  background: rgba(212, 168, 67, 0.2);
+  border-color: rgba(212, 168, 67, 0.4);
+  color: var(--ink-900);
+  transform: translateY(-1px);
+}
+
+/* ─── TECH TAGS ─────────────────────────────────────────────────────────── */
+.tech-tag {
+  display: inline-block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  color: var(--ink-500);
+  background: rgba(26, 18, 8, 0.06);
+  border: 1px solid rgba(26, 18, 8, 0.1);
+  padding: 0.25rem 0.65rem;
+  border-radius: 6px;
+}
+
+/* ─── NAVBAR GLASS ON SCROLL ────────────────────────────────────────────── */
+#navbar.scrolled {
+  background: rgba(253, 250, 240, 0.82);
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  border-bottom: 1px solid rgba(212, 168, 67, 0.15);
+  box-shadow: 0 2px 20px rgba(26, 18, 8, 0.06);
+}
+
+/* ─── SKILL CARD HOVER ──────────────────────────────────────────────────── */
+.skill-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+.skill-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(212, 168, 67, 0.4);
+}
+
+/* ─── FORM INPUTS ───────────────────────────────────────────────────────── */
+.form-input {
+  font-family: 'DM Sans', sans-serif;
+  caret-color: var(--gold-500);
+}
+.form-input:focus {
+  box-shadow: 0 0 0 3px rgba(212, 168, 67, 0.12);
+}
+
+/* ─── SCROLL REVEAL ANIMATION ───────────────────────────────────────────── */
+.scroll-reveal {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.7s cubic-bezier(0.23, 1, 0.32, 1), transform 0.7s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.scroll-reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ─── HERO REVEAL ANIMATIONS ────────────────────────────────────────────── */
+.reveal-item {
+  opacity: 0;
+  transform: translateY(24px);
+  animation: revealUp 0.8s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+}
+
+@keyframes revealUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ─── TYPEWRITER CURSOR ─────────────────────────────────────────────────── */
+#typewriter {
+  display: inline-block;
+  min-width: 2px;
+}
+
+/* ─── CANVAS ────────────────────────────────────────────────────────────── */
+#bg-canvas {
+  opacity: 0.55;
+}
+
+/* ─── CUSTOM CURSOR ─────────────────────────────────────────────────────── */
+.cursor-dot {
+  position: fixed;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--gold-500);
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: transform 0.1s, width 0.3s, height 0.3s, opacity 0.3s;
+  mix-blend-mode: multiply;
+}
+
+.cursor-ring {
+  position: fixed;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(201, 150, 58, 0.5);
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%, -50%);
+  transition: transform 0.15s ease, width 0.3s, height 0.3s, border-color 0.3s;
+}
+
+/* On interactive elements */
+a:hover ~ .cursor-dot, button:hover ~ .cursor-dot {
+  transform: translate(-50%, -50%) scale(2);
+}
+
+/* ─── RESPONSIVE HERO ───────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  #bg-canvas {
+    opacity: 0.35;
+  }
+}
+
+/* ─── UTILITY ───────────────────────────────────────────────────────────── */
+.font-display {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-feature-settings: 'kern' 1, 'liga' 1, 'calt' 1;
+}
+
+.font-mono {
+  font-family: 'JetBrains Mono', monospace;
+}
