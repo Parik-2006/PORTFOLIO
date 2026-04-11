@@ -154,6 +154,28 @@ body::before {
   box-shadow: 0 2px 20px rgba(26, 18, 8, 0.06);
 }
 
+/* ─── NAV LINK UNDERLINE HOVER ──────────────────────────────────────────── */
+.nav-link {
+  position: relative;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--gold-500);
+  transition: width 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
 /* ─── SKILL CARD HOVER ──────────────────────────────────────────────────── */
 .skill-card {
   transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
