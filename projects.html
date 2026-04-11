@@ -29,8 +29,8 @@
             --sys-bg:     rgba(36,113,163,0.16);
             --edge:       #B080C8;
             --edge-bg:    rgba(125,60,152,0.16);
-            --edtech:     #F97316;
-            --edtech-bg:  rgba(249,115,22,0.16);
+            --edtech:     #A366FF;
+            --edtech-bg:  rgba(163,102,255,0.16);
             --green:      #52B788;
             --green-bg:   rgba(82,183,136,0.16);
             --nav-h:      73px;
@@ -275,7 +275,7 @@
         .label-pill.ai-security { background: var(--ai-bg); color: var(--ai); border: 1px solid rgba(224,112,96,0.22); }
         .label-pill.systems     { background: var(--sys-bg); color: var(--sys); border: 1px solid rgba(112,168,208,0.22); }
         .label-pill.edge        { background: var(--edge-bg); color: var(--edge); border: 1px solid rgba(176,128,200,0.22); }
-        .label-pill.edtech      { background: var(--edtech-bg); color: var(--edtech); border: 1px solid rgba(249,115,22,0.22); }
+        .label-pill.edtech      { background: var(--edtech-bg); color: var(--edtech); border: 1px solid rgba(163,102,255,0.22); }
         .label-pill.green       { background: var(--green-bg); color: var(--green); border: 1px solid rgba(82,183,136,0.22); }
 
         .category-label .rule {
@@ -309,26 +309,17 @@
             border-radius: 18px;
             padding: 2rem;
             position: relative; overflow: hidden;
-            transition: transform .4s var(--ease), box-shadow .4s var(--ease), border-color .3s, background .3s, backdrop-filter .3s;
+            transition: transform .4s var(--ease), box-shadow .4s var(--ease), border-color .3s, background .3s, backdrop-filter .3s, opacity 0.6s ease;
             transform-style: preserve-3d;
-            will-change: transform;
+            will-change: transform, opacity;
             opacity: 0; transform: translateY(28px);
             cursor: none;
-            animation: cardStagger 0.6s var(--ease) forwards;
         }
 
-        @keyframes cardStagger {
-            0% {
-                opacity: 0;
-                transform: translateY(28px) scale(0.95) rotateX(10deg);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0) scale(1) rotateX(0);
-            }
+        .pcard.visible { 
+            opacity: 1 !important; 
+            transform: translateY(0) !important;
         }
-
-        .pcard.visible { opacity: 1; transform: translateY(0); }
         .pcard:hover {
             background: linear-gradient(135deg, rgba(60,60,58,0.9) 0%, rgba(44,44,42,1) 100%);
             border-color: var(--border-h);
@@ -375,7 +366,7 @@
         .pcard-tag.ai-security { background: var(--ai-bg);   color: var(--ai);   border: 1px solid rgba(224,112,96,0.2); }
         .pcard-tag.systems     { background: var(--sys-bg);  color: var(--sys);  border: 1px solid rgba(112,168,208,0.2); }
         .pcard-tag.edge        { background: var(--edge-bg); color: var(--edge); border: 1px solid rgba(176,128,200,0.2); }
-        .pcard-tag.edtech      { background: var(--edtech-bg); color: var(--edtech); border: 1px solid rgba(249,115,22,0.2); }
+        .pcard-tag.edtech      { background: var(--edtech-bg); color: var(--edtech); border: 1px solid rgba(163,102,255,0.2); }
         .pcard-tag.green       { background: var(--green-bg); color: var(--green); border: 1px solid rgba(82,183,136,0.2); }
 
         .pcard h3 {
