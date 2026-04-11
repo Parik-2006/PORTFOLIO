@@ -74,7 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Page transition handler for external page links - Fade out then fade in
+    // Page transition handler for external page links - Smooth fade without shaking
     document.querySelectorAll('a.page-transition').forEach(link => {
         link.addEventListener('click', function(e) {
             const href = this.getAttribute('href');
@@ -88,10 +88,8 @@ document.addEventListener('DOMContentLoaded', () => {
             
             // Current page color
             const currentColor = isCurrentlyOnProjects ? '#1A1A19' : '#FDFAF0';
-            // Target page color
-            const targetColor = goingToProjects ? '#1A1A19' : '#FDFAF0';
             
-            // Create fade overlay
+            // Create fade overlay - simple linear fade, no bouncing
             const fadeOverlay = document.createElement('div');
             fadeOverlay.setAttribute('data-fade-overlay', 'true');
             fadeOverlay.style.cssText = `
@@ -100,20 +98,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 background: ${currentColor};
                 z-index: 9999;
                 opacity: 0;
-                transition: opacity 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+                transition: opacity 0.4s ease-in;
                 pointer-events: none;
+                will-change: opacity;
             `;
             document.body.appendChild(fadeOverlay);
             
-            // Phase 1: Fade to black/current color (fade out)
-            setTimeout(() => {
+            // Fade in smoothly without bouncing
+            requestAnimationFrame(() => {
                 fadeOverlay.style.opacity = '1';
-                
-                // Phase 2: Navigate and prepare for fade in
-                setTimeout(() => {
-                    window.location.href = href;
-                }, 500);
-            }, 10);
+            });
+            
+            // Navigate after fade
+            setTimeout(() => {
+                window.location.href = href;
+            }, 400);
         });
     });
     
@@ -181,9 +180,9 @@ document.addEventListener('DOMContentLoaded', () => {
             // Find and fade out any existing transition overlay
             const existingOverlay = document.querySelector('[data-fade-overlay]');
             if (existingOverlay) {
-                existingOverlay.style.transition = 'opacity 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+                existingOverlay.style.transition = 'opacity 0.4s ease-out';
                 existingOverlay.style.opacity = '0';
-                setTimeout(() => existingOverlay.remove(), 600);
+                setTimeout(() => existingOverlay.remove(), 400);
             } else {
                 // If coming from direct navigation, create an overlay to fade out
                 const isProjects = window.location.pathname.includes('projects.html');
@@ -195,15 +194,16 @@ document.addEventListener('DOMContentLoaded', () => {
                     background: ${isProjects ? '#1A1A19' : '#FDFAF0'};
                     z-index: 9998;
                     opacity: 1;
-                    transition: opacity 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+                    transition: opacity 0.4s ease-out;
                     pointer-events: none;
+                    will-change: opacity;
                 `;
                 document.body.appendChild(entryOverlay);
                 
                 // Fade out the overlay
                 setTimeout(() => {
                     entryOverlay.style.opacity = '0';
-                    setTimeout(() => entryOverlay.remove(), 600);
+                    setTimeout(() => entryOverlay.remove(), 400);
                 }, 50);
             }
             document.body.classList.add('loaded');

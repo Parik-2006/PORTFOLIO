@@ -936,36 +936,8 @@
     if (urlCat) { const m = [...filterBtns].find(b => b.dataset.cat === urlCat); if (m) m.click(); }
 
     // ─── PAGE TRANSITION HANDLER ────────────────────────────────────
-    function handlePageTransition(e) {
-        const href = e.currentTarget.getAttribute('href');
-        if (!href || href.startsWith('#') || href.startsWith('http')) return;
-        
-        e.preventDefault();
-        
-        // Create slide overlay for transitions
-        const slideOverlay = document.createElement('div');
-        slideOverlay.style.cssText = `
-            position: fixed;
-            inset: 0;
-            background: linear-gradient(90deg, #FDFAF0 0%, #FDFAF0 50%, #1A1A19 50%, #1A1A19 100%);
-            z-index: 9999;
-            opacity: 0;
-            transform: translateX(0);
-            transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
-        `;
-        document.body.appendChild(slideOverlay);
-        
-        // Trigger slide animation
-        setTimeout(() => {
-            slideOverlay.style.opacity = '1';
-            slideOverlay.style.transform = 'translateX(-100%)';
-            
-            setTimeout(() => {
-                window.location.href = href;
-            }, 600);
-        }, 10);
-    }
-
+    // Remove old transitions - they're handled by script.js with smooth fades
+    
     // ─── STAGGER CARD ANIMATIONS ───────────────────────────────────
     function initCardStagger() {
         const cards = document.querySelectorAll('.pcard');
