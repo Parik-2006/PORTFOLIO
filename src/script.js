@@ -74,7 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Page transition handler for external page links
+    // Page transition handler for external page links - Fade out then fade in
     document.querySelectorAll('a.page-transition').forEach(link => {
         link.addEventListener('click', function(e) {
             const href = this.getAttribute('href');
@@ -82,28 +82,37 @@ document.addEventListener('DOMContentLoaded', () => {
             
             e.preventDefault();
             
-            // Create slide overlay
-            const slideOverlay = document.createElement('div');
-            slideOverlay.style.cssText = `
+            // Determine target page color
+            const goingToProjects = href.includes('projects.html');
+            const isCurrentlyOnProjects = window.location.pathname.includes('projects.html');
+            
+            // Current page color
+            const currentColor = isCurrentlyOnProjects ? '#1A1A19' : '#FDFAF0';
+            // Target page color
+            const targetColor = goingToProjects ? '#1A1A19' : '#FDFAF0';
+            
+            // Create fade overlay
+            const fadeOverlay = document.createElement('div');
+            fadeOverlay.setAttribute('data-fade-overlay', 'true');
+            fadeOverlay.style.cssText = `
                 position: fixed;
                 inset: 0;
-                background: linear-gradient(90deg, #1A1A19 0%, #1A1A19 50%, #FDFAF0 50%, #FDFAF0 100%);
-                z-index: 9998;
+                background: ${currentColor};
+                z-index: 9999;
                 opacity: 0;
-                transform: translateX(0);
-                transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+                transition: opacity 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+                pointer-events: none;
             `;
-            document.body.appendChild(slideOverlay);
+            document.body.appendChild(fadeOverlay);
             
-            // Set initial state
+            // Phase 1: Fade to black/current color (fade out)
             setTimeout(() => {
-                slideOverlay.style.opacity = '1';
-                slideOverlay.style.transform = 'translateX(100%)';
+                fadeOverlay.style.opacity = '1';
                 
-                // Navigate after animation
+                // Phase 2: Navigate and prepare for fade in
                 setTimeout(() => {
                     window.location.href = href;
-                }, 600);
+                }, 500);
             }, 10);
         });
     });
@@ -165,6 +174,41 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Ensure page is visible on load
     document.body.style.opacity = '1';
+    
+    // Fade in when page loads - removes transition overlay
+    window.addEventListener('load', () => {
+        setTimeout(() => {
+            // Find and fade out any existing transition overlay
+            const existingOverlay = document.querySelector('[data-fade-overlay]');
+            if (existingOverlay) {
+                existingOverlay.style.transition = 'opacity 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+                existingOverlay.style.opacity = '0';
+                setTimeout(() => existingOverlay.remove(), 600);
+            } else {
+                // If coming from direct navigation, create an overlay to fade out
+                const isProjects = window.location.pathname.includes('projects.html');
+                const entryOverlay = document.createElement('div');
+                entryOverlay.setAttribute('data-fade-overlay', 'true');
+                entryOverlay.style.cssText = `
+                    position: fixed;
+                    inset: 0;
+                    background: ${isProjects ? '#1A1A19' : '#FDFAF0'};
+                    z-index: 9998;
+                    opacity: 1;
+                    transition: opacity 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+                    pointer-events: none;
+                `;
+                document.body.appendChild(entryOverlay);
+                
+                // Fade out the overlay
+                setTimeout(() => {
+                    entryOverlay.style.opacity = '0';
+                    setTimeout(() => entryOverlay.remove(), 600);
+                }, 50);
+            }
+            document.body.classList.add('loaded');
+        }, 100);
+    });
 });
 
 // ===========================
