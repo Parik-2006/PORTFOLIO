@@ -240,6 +240,39 @@ a:hover ~ .cursor-dot, button:hover ~ .cursor-dot {
   transform: translate(-50%, -50%) scale(2);
 }
 
+/* ─── PROFILE IMAGE MORPHISM ────────────────────────────────────────────── */
+.profile-container {
+  perspective: 1200px;
+}
+
+.profile-image-wrapper {
+  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  transform-style: preserve-3d;
+}
+
+.profile-container:hover .profile-image-wrapper {
+  /* Morphism effect: glass effect on hover */
+  background: rgba(253, 250, 240, 0.4);
+  backdrop-filter: blur(20px) saturate(130%);
+  -webkit-backdrop-filter: blur(20px) saturate(130%);
+  border-color: var(--gold-400);
+  box-shadow: 
+    0 20px 60px rgba(212, 168, 67, 0.15),
+    0 0 40px rgba(212, 168, 67, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8),
+    inset 0 -1px 0 rgba(212, 168, 67, 0.12);
+  transform: translateY(-8px) rotateX(3deg) scale(1.02);
+}
+
+.profile-image {
+  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.profile-container:hover .profile-image {
+  transform: scale(1.05);
+  filter: brightness(1.1) contrast(1.05);
+}
+
 /* ─── RESPONSIVE HERO ───────────────────────────────────────────────────── */
 @media (max-width: 768px) {
   #bg-canvas {
