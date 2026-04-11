@@ -311,5 +311,31 @@
   </footer>
 
   <script type="module" src="/src/main.js"></script>
+  
+  <!-- Page transition entry animation -->
+  <script>
+    // Trigger page enter animation on page load, especially when returning from projects
+    window.addEventListener('pageshow', () => {
+      document.body.classList.add('page-entering');
+      setTimeout(() => {
+        document.body.classList.remove('page-entering');
+      }, 700);
+    });
+    
+    // Also trigger on initial load
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', () => {
+        document.body.classList.add('page-entering');
+        setTimeout(() => {
+          document.body.classList.remove('page-entering');
+        }, 700);
+      });
+    } else {
+      document.body.classList.add('page-entering');
+      setTimeout(() => {
+        document.body.classList.remove('page-entering');
+      }, 700);
+    }
+  </script>
 </body>
 </html>

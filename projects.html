@@ -100,8 +100,14 @@
         }
 
         @keyframes pageEnter {
-            0% { opacity: 0; }
-            100% { opacity: 1; }
+            0% { 
+                opacity: 0;
+                transform: translateX(-100%);
+            }
+            100% { 
+                opacity: 1;
+                transform: translateX(0);
+            }
         }
 
         ::-webkit-scrollbar { width: 5px; }
@@ -935,11 +941,29 @@
         if (!href || href.startsWith('#') || href.startsWith('http')) return;
         
         e.preventDefault();
-        document.body.classList.add('page-exiting');
         
+        // Create slide overlay for transitions
+        const slideOverlay = document.createElement('div');
+        slideOverlay.style.cssText = `
+            position: fixed;
+            inset: 0;
+            background: linear-gradient(90deg, #FDFAF0 0%, #FDFAF0 50%, #1A1A19 50%, #1A1A19 100%);
+            z-index: 9999;
+            opacity: 0;
+            transform: translateX(0);
+            transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        `;
+        document.body.appendChild(slideOverlay);
+        
+        // Trigger slide animation
         setTimeout(() => {
-            window.location.href = href;
-        }, 300);
+            slideOverlay.style.opacity = '1';
+            slideOverlay.style.transform = 'translateX(-100%)';
+            
+            setTimeout(() => {
+                window.location.href = href;
+            }, 600);
+        }, 10);
     }
 
     // ─── STAGGER CARD ANIMATIONS ───────────────────────────────────

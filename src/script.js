@@ -82,22 +82,28 @@ document.addEventListener('DOMContentLoaded', () => {
             
             e.preventDefault();
             
-            const transition = document.createElement('div');
-            transition.style.cssText = `
+            // Create slide overlay
+            const slideOverlay = document.createElement('div');
+            slideOverlay.style.cssText = `
                 position: fixed;
                 inset: 0;
-                background: var(--cream-100);
-                z-index: 9999;
+                background: linear-gradient(90deg, #1A1A19 0%, #1A1A19 50%, #FDFAF0 50%, #FDFAF0 100%);
+                z-index: 9998;
                 opacity: 0;
-                transition: opacity 0.3s ease;
+                transform: translateX(0);
+                transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
             `;
-            document.body.appendChild(transition);
+            document.body.appendChild(slideOverlay);
             
+            // Set initial state
             setTimeout(() => {
-                transition.style.opacity = '1';
+                slideOverlay.style.opacity = '1';
+                slideOverlay.style.transform = 'translateX(100%)';
+                
+                // Navigate after animation
                 setTimeout(() => {
                     window.location.href = href;
-                }, 300);
+                }, 600);
             }, 10);
         });
     });
