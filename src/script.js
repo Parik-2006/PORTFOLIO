@@ -73,6 +73,34 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
+
+    // Page transition handler for external page links
+    document.querySelectorAll('a.page-transition').forEach(link => {
+        link.addEventListener('click', function(e) {
+            const href = this.getAttribute('href');
+            if (!href || href.startsWith('#')) return;
+            
+            e.preventDefault();
+            
+            const transition = document.createElement('div');
+            transition.style.cssText = `
+                position: fixed;
+                inset: 0;
+                background: var(--cream-100);
+                z-index: 9999;
+                opacity: 0;
+                transition: opacity 0.3s ease;
+            `;
+            document.body.appendChild(transition);
+            
+            setTimeout(() => {
+                transition.style.opacity = '1';
+                setTimeout(() => {
+                    window.location.href = href;
+                }, 300);
+            }, 10);
+        });
+    });
     
     // Active nav link on scroll (for single page)
     const sections = document.querySelectorAll('section[id]');
