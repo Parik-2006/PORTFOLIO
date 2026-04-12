@@ -344,7 +344,7 @@ document.querySelectorAll('.project-card').forEach(card => {
 })
 
 // ─── CONTACT FORM ─────────────────────────────────────────────────────────
-document.getElementById('send-btn').addEventListener('click', () => {
+document.getElementById('send-btn').addEventListener('click', async () => {
   const name    = document.getElementById('f-name').value.trim()
   const email   = document.getElementById('f-email').value.trim()
   const message = document.getElementById('f-message').value.trim()
@@ -366,14 +366,32 @@ document.getElementById('send-btn').addEventListener('click', () => {
   btn.textContent = 'Sending…'
   btn.disabled = true
 
-  // Simulate send (replace with your actual API / Formspree / etc.)
-  setTimeout(() => {
-    msgEl.textContent = `Thanks, ${name}! I'll get back to you soon.`
-    msgEl.className = 'mb-6 p-4 rounded-xl bg-gold-400/10 border border-gold-400/30 text-ink-700 text-sm'
-    document.getElementById('f-name').value = ''
-    document.getElementById('f-email').value = ''
-    document.getElementById('f-message').value = ''
+  try {
+    // Send to backend API
+    const response = await fetch('http://localhost:5000/api/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, email, message })
+    })
+
+    const data = await response.json()
+
+    if (response.ok) {
+      msgEl.textContent = data.message
+      msgEl.className = 'mb-6 p-4 rounded-xl bg-gold-400/10 border border-gold-400/30 text-ink-700 text-sm'
+      document.getElementById('f-name').value = ''
+      document.getElementById('f-email').value = ''
+      document.getElementById('f-message').value = ''
+    } else {
+      msgEl.textContent = data.error || 'Failed to send message. Try again.'
+      msgEl.className = 'mb-6 p-4 rounded-xl bg-red-50 border border-red-200 text-red-700 text-sm'
+    }
+  } catch (error) {
+    msgEl.textContent = 'Connection error. Make sure the backend is running.'
+    msgEl.className = 'mb-6 p-4 rounded-xl bg-red-50 border border-red-200 text-red-700 text-sm'
+    console.error('Form submission error:', error)
+  } finally {
     btn.textContent = 'Send Message →'
     btn.disabled = false
-  }, 1200)
+  }
 })
