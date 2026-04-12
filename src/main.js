@@ -367,8 +367,8 @@ document.getElementById('send-btn').addEventListener('click', async () => {
   btn.disabled = true
 
   try {
-    // Send to backend API
-    const response = await fetch('http://localhost:5000/api/contact', {
+    // Send to Render backend API
+    const response = await fetch('https://portfolio-1zzj.onrender.com/api/contact', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name, email, message })

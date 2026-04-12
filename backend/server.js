@@ -13,7 +13,7 @@ const COLLECTION_NAME = 'messages';
 
 // Middleware
 app.use(cors({
-  origin: ['http://localhost:5173', 'http://localhost:3000', 'https://parikshith.dev'],
+  origin: ['http://localhost:5173', 'http://localhost:3000', 'https://devportfolio-livid-three.vercel.app'],
   credentials: true
 }));
 app.use(express.json());
