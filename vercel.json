@@ -1,0 +1,14 @@
+{
+  "buildCommand": "cd frontend && npm run build",
+  "outputDirectory": "frontend/dist",
+  "installCommand": "cd frontend && npm install",
+  "env": {
+    "VITE_API_URL": "@vite_api_url"
+  },
+  "env_": {
+    "VITE_API_URL": {
+      "description": "Backend API URL for contact form submissions",
+      "default": "https://portfolio-1zzj.onrender.com"
+    }
+  }
+}
