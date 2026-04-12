@@ -1,102 +1,210 @@
-# Portfolio Website - Setup Instructions
+# Parikshith's Portfolio
 
-## 📁 Files Included
+A **full-stack portfolio website** built with modern web technologies, featuring an AI-powered contact form with MongoDB backend integration.
 
-- `index.html` - Main portfolio page
-- `projects.html` - Projects showcase page
-- `styles.css` - Complete stylesheet with 3D background effects
-- `script.js` - Main JavaScript for navigation and interactions
-- `projects.js` - JavaScript for project filtering functionality
+**Live:** [parikshith.dev](https://parikshith.dev)  
+**Repo:** [github.com/Parik-2006/PORTFOLIO](https://github.com/Parik-2006/PORTFOLIO)
 
-## 🖼️ Profile Image Setup
+---
 
-**IMPORTANT:** Save your profile photo as `PASSPORT_SIZE_PHOTO.jpg` in the same directory as the HTML files.
+## 🛠️ Tech Stack
 
-The image should be:
-- Named exactly: `PASSPORT_SIZE_PHOTO.jpg`
-- Placed in the root folder alongside `index.html`
-- Recommended dimensions: 500x500px or larger (square format works best)
+### Frontend
+- **Vite** - Lightning-fast build tool
+- **React** (vanilla JS) - Rich interactivity
+- **Tailwind CSS** - Utility-first styling
+- **Three.js** - 3D background animations
+- **PostCSS** - CSS processing
+
+### Backend
+- **Node.js + Express** - REST API server
+- **MongoDB** - Document database for contact messages
+- **CORS** - Cross-origin resource sharing
+- **dotenv** - Environment variable management
+
+---
+
+## 📋 Project Structure
+
+```
+PORTFOLIO/
+├── index.html              # Home page
+├── projects.html           # Projects showcase
+├── public/                 # Static assets
+├── src/
+│   ├── main.js            # Frontend logic & contact form
+│   ├── style.css          # Main styles
+│   └── ...
+├── backend/               # Express + MongoDB API
+│   ├── server.js          # REST endpoints
+│   ├── package.json       # Dependencies
+│   ├── .env               # (local only, not in git)
+│   └── README.md          # Backend setup guide
+├── .gitignore             # Clean repo (no lock files, .env)
+└── vite.config.js         # Vite configuration
+```
+
+---
 
 ## 🚀 Quick Start
 
-1. Extract all files to a folder
-2. Save your profile photo as `PASSPORT_SIZE_PHOTO.jpg` in the same folder
-3. Open `index.html` in your web browser
-
-## ✨ Features Implemented
-
-### Main Page (index.html)
-- ✅ Hero section with integrated profile image
-- ✅ Removed trailing cursor from "View My Work" button
-- ✅ Bio section with corrected line order:
-  - Diploma → CSE → Lateral Entry
-  - Embedded Root (immediately following)
-- ✅ Updated graduation year to RVCE '28
-- ✅ Contact email set to raptorparik2006@gmail.com
-- ✅ IEEE Access paper section (ready for content)
-- ✅ Projects section removed from main page
-- ✅ Navigation updated to route to projects.html
-
-### Projects Page (projects.html)
-- ✅ Standalone page with matching light/cream 3D background
-- ✅ Secondary sub-navbar with three categories:
-  - AI-Security
-  - Systems Optimization
-  - Edge/Privacy-Preserving Tech
-- ✅ Project cards with category filtering
-- ✅ Seamless theme consistency
-- ✅ Active filtering with smooth animations
-
-### Design Features
-- ✅ Light/cream 3D background with animated grid
-- ✅ Smooth transitions between pages
-- ✅ Responsive design for mobile, tablet, and desktop
-- ✅ Sticky navigation with scroll effects
-- ✅ Category-based project filtering
-- ✅ Professional card-based layouts
-- ✅ Fade-in animations on scroll
-
-## 🎨 Customization
-
-### Adding New Projects
-
-In `projects.html`, add new project cards following this structure:
-
-```html
-<div class="project-card" data-category="ai-security">
-    <div class="project-header">
-        <div class="project-tag ai-security">AI-Security</div>
-        <h3 class="project-title">Your Project Name</h3>
-    </div>
-    <p class="project-description">
-        Your project description here.
-    </p>
-    <div class="project-tech">
-        <span class="tech-tag">Technology 1</span>
-        <span class="tech-tag">Technology 2</span>
-    </div>
-    <div class="project-status">
-        <span class="status-indicator active"></span>
-        <span>Status</span>
-    </div>
-</div>
+### 1. Clone Repository
+```bash
+git clone https://github.com/Parik-2006/PORTFOLIO.git
+cd PORTFOLIO
 ```
 
-**Available categories:** `ai-security`, `systems`, `edge`
-
-**Available status indicators:** `active`, `research`, `planning`
-
-### Updating Colors
-
-Edit the CSS variables in `styles.css` (lines 7-25):
-
-```css
-:root {
-    --bg-primary: #faf8f5;
-    --accent-primary: #4a90e2;
-    /* etc. */
-}
+### 2. Frontend Setup
+```bash
+npm install
+npm run dev
 ```
+Runs on **http://localhost:5173**
+
+### 3. Backend Setup
+```bash
+cd backend
+npm install
+cp .env.example .env
+# ← Edit .env with your MongoDB URI
+npm start
+```
+Runs on **http://localhost:5000**
+
+### 4. Test Contact Form
+1. Fill contact form on portfolio
+2. Submit message
+3. Check MongoDB Atlas → Collections → `messages`
+
+---
+
+## 📚 Documentation
+
+### Backend API
+See [backend/README.md](backend/README.md) for:
+- API endpoints
+- MongoDB setup (Atlas)
+- Deployment options
+- Environment variables
+
+### Key Scripts
+
+**Frontend:**
+```bash
+npm run dev      # Development server with hot reload
+npm run build    # Production build → dist/
+npm run preview  # Preview production build
+```
+
+**Backend:**
+```bash
+npm start        # Production server
+npm run dev      # Development with nodemon auto-reload
+```
+
+---
+
+## 🔐 Environment Variables
+
+**Frontend:** No env vars needed (client-side only)
+
+**Backend:** Create `backend/.env`
+```env
+MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/?appName=YourApp
+PORT=5000
+```
+
+**Never commit `.env`** — it's in `.gitignore` for security! ✅
+
+---
+
+## 📝 Contact Form Flow
+
+```
+User fills form (frontend)
+    ↓
+Validations (email format, required fields)
+    ↓
+POST request to http://localhost:5000/api/contact
+    ↓
+Backend validates & sanitizes
+    ↓
+Inserts into MongoDB collection 'portfolio.messages'
+    ↓
+Returns success response to frontend
+    ↓
+Success message shown to user ✅
+```
+
+**View all messages:**
+```bash
+curl http://localhost:5000/api/messages
+```
+
+---
+
+## 🚢 Deployment
+
+### Frontend (Vercel, Netlify, GitHub Pages)
+```bash
+npm run build
+# Deploy dist/ folder
+```
+
+### Backend (Railway, Render, Heroku)
+1. Connect GitHub repo
+2. Set `MONGODB_URI` environment variable
+3. Deploy!
+
+---
+
+## 📦 Dependencies
+
+**Why no lock files in git?**
+- `package.json` uniquely identifies versions
+- Lock files cause merge conflicts
+- Reproducible installs with just `npm install`
+- Cleaner repository
+
+---
+
+## 🎯 Features
+
+✅ **Full-stack contact form** with MongoDB  
+✅ **Clean git repository** (no lock files, .env)  
+✅ **Responsive design** (mobile-first)  
+✅ **3D background animations** (Three.js)  
+✅ **Real-time form validation**  
+✅ **Error handling** (connection failures, validation)  
+✅ **Secure credentials** (never in git)  
+
+---
+
+## 🐛 Troubleshooting
+
+| Issue | Solution |
+|-------|----------|
+| `Failed to connect to MongoDB` | Check `.env` has correct URI |
+| `CORS error` | Backend must be running on port 5000 |
+| `Form says "Connection error"` | Start backend with `npm start` in `backend/` |
+| `Messages not saving` | Verify MongoDB cluster is active & network access allowed |
+| `Port 5000 already in use` | Kill process or change PORT in `.env` |
+
+---
+
+## 📞 Contact
+
+- **Email:** raptorparik2006@gmail.com
+- **Instagram:** [@parik_2006](https://instagram.com/parik_2006)
+- **LinkedIn:** [parikshith](https://linkedin.com/in/parikshith)
+
+---
+
+## 📄 License
+
+Open source — feel free to fork & learn!
+
+**Built with ❤️ by Parikshith**
 
 ## 📱 Browser Compatibility
 
