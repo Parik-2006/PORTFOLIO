@@ -3,6 +3,24 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <!-- Device Detection: Redirect mobile users only on first load -->
+  <script>
+    // Only run once per session to avoid redirect loops
+    if (!sessionStorage.getItem('_routingDone')) {
+      sessionStorage.setItem('_routingDone', 'true');
+      
+      const ua = navigator.userAgent.toLowerCase();
+      const isMobile = /mobile|android|iphone|ipad|phone|touch|webos|blackberry|windows phone/i.test(ua);
+      const isSmallScreen = window.innerWidth < 768;
+      
+      // Redirect to mobile version for mobile devices only
+      if (isMobile || isSmallScreen) {
+        window.location.replace('./mobile-portfolio.html');
+      }
+    }
+  </script>
+  
   <title>Parikshith — CSE Developer</title>
   <meta name="description" content="2nd-year CSE student at R.V. College of Engineering — building at the intersection of systems, security, and ML." />
 
