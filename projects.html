@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#1A1A19">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Projects — Parikshith</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg:         #1A1A19;
+            --bg-alt:     #202020;
+            --card:       #242424;
+            --card-hover: #2C2C2A;
+            --border:     rgba(255,245,230,0.08);
+            --border-h:   rgba(255,245,230,0.16);
+            --gold:       #D4A840;
+            --gold-dim:   rgba(212,168,64,0.14);
+            --gold-glow:  rgba(212,168,64,0.06);
+            --ink:        #E2DDD5;
+            --ink-mid:    #B8B0A4;
+            --ink-soft:   #7A7268;
+            --ink-muted:  #4E4840;
+            --ai:         #E07060;
+            --ai-bg:      rgba(192,57,43,0.16);
+            --sys:        #70A8D0;
+            --sys-bg:     rgba(36,113,163,0.16);
+            --edge:       #B080C8;
+            --edge-bg:    rgba(125,60,152,0.16);
+            --edtech:     #A366FF;
+            --edtech-bg:  rgba(163,102,255,0.16);
+            --green:      #52B788;
+            --green-bg:   rgba(82,183,136,0.16);
+            --nav-h:      64px;
+            --ease:       cubic-bezier(0.23,1,0.32,1);
+            --safe-bottom: env(safe-area-inset-bottom, 0px);
+            --safe-top: env(safe-area-inset-top, 0px);
+            --safe-left: env(safe-area-inset-left, 0px);
+            --safe-right: env(safe-area-inset-right, 0px);
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box; margin: 0; padding: 0;
+        }
+        html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg);
+            color: var(--ink);
+            overflow-x: hidden;
+            cursor: none;
+            -webkit-font-smoothing: antialiased;
+            overscroll-behavior-y: none;
+        }
+
+        /* grain */
+        body::before {
+            content: '';
+            position: fixed; inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.045'/%3E%3C/svg%3E");
+            background-size: 256px;
+            pointer-events: none;
+            z-index: 9000;
+            opacity: 0.5;
+        }
+
+        /* subtle grid */
+        body::after {
+            content: '';
+            position: fixed; inset: 0;
+            background-image:
+                linear-gradient(rgba(255,245,230,0.028) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,245,230,0.028) 1px, transparent 1px);
+            background-size: 52px 52px;
+            z-index: -1;
+            animation: gridDrift 28s linear infinite;
+        }
+        @keyframes gridDrift {
+            from { transform: translate(0,0); }
+            to   { transform: translate(52px,52px); }
+        }
+
+        /* page enter */
+        body.page-entering { animation: pageEnter .5s ease forwards; }
+        @keyframes pageEnter {
+            0% { opacity: 0; transform: translateX(-20px); }
+            100% { opacity: 1; transform: translateX(0); }
+        }
+
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: var(--bg-alt); }
+        ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 3px; }
+        ::selection { background: rgba(212,168,64,0.25); color: var(--ink); }
+
+        /* cursor — desktop only */
+        .c-dot {
+            position: fixed; width: 7px; height: 7px;
+            border-radius: 50%; background: var(--gold);
+            pointer-events: none; z-index: 9999;
+            transform: translate(-50%,-50%);
+            transition: transform .12s, opacity .3s;
+            mix-blend-mode: screen;
+        }
+        .c-ring {
+            position: fixed; width: 32px; height: 32px;
+            border-radius: 50%; border: 1.5px solid rgba(212,168,64,.40);
+            pointer-events: none; z-index: 9998;
+            transform: translate(-50%,-50%);
+            transition: width .3s var(--ease), height .3s var(--ease), border-color .3s;
+        }
+
+        /* ── NAVBAR ────────────────────────────────────────────────────────── */
+        nav {
+            position: fixed; top: 0; left: 0; right: 0;
+            height: var(--nav-h);
+            display: flex; align-items: center;
+            padding: 0 2.5rem;
+            justify-content: space-between;
+            z-index: 800;
+            transition: background .4s, box-shadow .4s, border-color .4s;
+            padding-top: var(--safe-top);
+        }
+        nav.scrolled {
+            background: rgba(26,26,25,0.92);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            box-shadow: 0 2px 24px rgba(0,0,0,0.35);
+        }
+        .nav-logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2rem; font-weight: 400;
+            color: var(--ink); text-decoration: none;
+            letter-spacing: .02em;
+            transition: color .2s;
+        }
+        .nav-logo span { color: var(--gold); }
+        .nav-logo:hover { color: var(--gold); }
+
+        .nav-links { display: flex; gap: 2.2rem; align-items: center; }
+        .nav-links a {
+            font-size: .78rem; letter-spacing: .18em; text-transform: uppercase;
+            font-weight: 500; color: var(--ink-soft); text-decoration: none;
+            position: relative; transition: color .2s;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .nav-links a::after {
+            content: ''; position: absolute; bottom: -4px; left: 0;
+            width: 0; height: 2px; background: var(--gold);
+            transition: width .3s var(--ease);
+        }
+        .nav-links a:hover, .nav-links a.active { color: var(--ink); }
+        .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
+
+        /* Mobile hamburger */
+        .nav-hamburger {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 5px;
+            width: 48px; height: 48px;
+            background: transparent; border: none;
+            cursor: pointer; border-radius: 12px;
+            transition: background .2s;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .nav-hamburger:active { background: rgba(212,168,64,0.1); }
+        .hbar {
+            display: block; height: 1.5px; background: var(--ink);
+            border-radius: 2px;
+            transition: all .35s var(--ease);
+        }
+        .nav-hamburger.open .hbar:nth-child(1) { transform: translateY(6.5px) rotate(45deg); width: 22px !important; }
+        .nav-hamburger.open .hbar:nth-child(2) { opacity: 0; transform: scaleX(0); }
+        .nav-hamburger.open .hbar:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); width: 22px !important; }
+
+        /* ── MOBILE DRAWER ─────────────────────────────────────────────────── */
+        #proj-drawer {
+            position: fixed;
+            top: 0; right: 0;
+            width: min(320px, 88vw); height: 100dvh;
+            background: rgba(26,26,24,0.97);
+            backdrop-filter: blur(24px) saturate(150%);
+            -webkit-backdrop-filter: blur(24px) saturate(150%);
+            border-left: 1px solid var(--border-h);
+            z-index: 900;
+            transform: translateX(100%);
+            transition: transform .45s var(--ease);
+            display: flex; flex-direction: column;
+            box-shadow: -8px 0 40px rgba(0,0,0,0.4);
+            will-change: transform;
+        }
+        #proj-drawer.open { transform: translateX(0); }
+        #proj-overlay {
+            position: fixed; inset: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 899; opacity: 0; pointer-events: none;
+            transition: opacity .35s ease;
+        }
+        #proj-overlay.visible { opacity: 1; pointer-events: auto; }
+
+        .drawer-hd {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: max(1.5rem, calc(var(--safe-top) + 1rem)) 1.5rem 1.25rem;
+            border-bottom: 1px solid var(--border);
+        }
+        .drawer-hd .dlogo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.8rem; color: var(--ink); letter-spacing: .02em;
+        }
+        .drawer-hd .dlogo span { color: var(--gold); }
+        .drawer-close {
+            width: 44px; height: 44px; display: flex; align-items: center; justify-content: center;
+            border-radius: 50%; border: 1px solid var(--border-h);
+            background: transparent; cursor: pointer; color: var(--ink-soft);
+            transition: all .2s; touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .drawer-close:active { background: var(--gold-dim); color: var(--gold); }
+        .drawer-nav { display: flex; flex-direction: column; padding: 1.5rem; gap: .4rem; flex: 1; }
+        .drawer-nav a {
+            display: flex; align-items: center; gap: .875rem;
+            padding: .875rem 1rem; border-radius: 12px;
+            font-size: .9rem; font-weight: 500;
+            letter-spacing: .12em; text-transform: uppercase;
+            color: var(--ink-soft); text-decoration: none;
+            transition: all .2s; border: 1px solid transparent;
+            touch-action: manipulation; -webkit-tap-highlight-color: transparent;
+        }
+        .drawer-nav a:active { background: var(--gold-dim); border-color: rgba(212,168,64,0.2); color: var(--ink); }
+        .drawer-nav a.active-link { color: var(--gold); }
+        .drawer-nav .num {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: .62rem; color: var(--gold); opacity: .7; min-width: 18px;
+        }
+        .drawer-foot {
+            padding: 1.25rem 1.5rem calc(max(1.25rem, var(--safe-bottom)) + .5rem);
+            border-top: 1px solid var(--border);
+            display: flex; gap: .75rem;
+        }
+        .dfoot-btn {
+            width: 44px; height: 44px; display: flex; align-items: center; justify-content: center;
+            border-radius: 50%; border: 1px solid var(--border-h);
+            color: var(--ink-soft); text-decoration: none;
+            transition: all .2s; touch-action: manipulation; -webkit-tap-highlight-color: transparent;
+        }
+        .dfoot-btn:active { background: var(--gold-dim); color: var(--gold); border-color: var(--gold); }
+
+        /* ── PAGE HERO ─────────────────────────────────────────────────────── */
+        .page-hero {
+            padding: calc(var(--nav-h) + 4rem) 2.5rem 3.5rem;
+            max-width: 900px; margin: 0 auto; text-align: center;
+        }
+        .page-hero .eyebrow {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: .72rem; letter-spacing: .25em; text-transform: uppercase;
+            color: var(--gold); display: inline-flex; align-items: center; gap: .5rem;
+            background: var(--gold-dim); border: 1px solid rgba(212,168,64,0.18);
+            padding: .4rem 1rem; border-radius: 999px; margin-bottom: 1.5rem;
+            opacity: 0; animation: fadeUp .7s var(--ease) .15s forwards;
+        }
+        .page-hero .eyebrow::before {
+            content: ''; width: 6px; height: 6px; border-radius: 50%;
+            background: var(--gold); animation: pulse 2s ease-in-out infinite;
+        }
+        @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+        .page-hero h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(3rem,8vw,7rem); font-weight: 300;
+            line-height: .95; letter-spacing: -.02em; color: var(--ink);
+            opacity: 0; animation: fadeUp .85s var(--ease) .25s forwards;
+        }
+        .page-hero h1 em { font-style: italic; color: var(--gold); }
+        .page-hero p {
+            font-size: 1rem; color: var(--ink-soft); max-width: 560px;
+            margin: 1.4rem auto 0; line-height: 1.75;
+            opacity: 0; animation: fadeUp .8s var(--ease) .4s forwards;
+        }
+        @keyframes fadeUp {
+            from { opacity:0; transform:translateY(22px); }
+            to   { opacity:1; transform:translateY(0); }
+        }
+
+        /* ── FILTER BAR ────────────────────────────────────────────────────── */
+        .filter-bar {
+            position: sticky; top: var(--nav-h); z-index: 700;
+            padding: .9rem 1.5rem;
+            display: flex; gap: .6rem; flex-wrap: nowrap;
+            overflow-x: auto; -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            transition: background .4s, box-shadow .4s;
+            /* fade edges */
+            -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 5%, #000 95%, transparent 100%);
+            mask-image: linear-gradient(90deg, transparent 0, #000 5%, #000 95%, transparent 100%);
+        }
+        .filter-bar::-webkit-scrollbar { display: none; }
+        .filter-bar.stuck {
+            background: rgba(20,20,18,0.94);
+            backdrop-filter: blur(18px);
+            border-bottom: 1px solid var(--border);
+            box-shadow: 0 3px 20px rgba(0,0,0,0.4);
+        }
+
+        .filter-btn {
+            font-family: 'DM Sans', sans-serif;
+            font-size: .78rem; font-weight: 500; letter-spacing: .06em;
+            padding: .55rem 1.25rem; border-radius: 999px; border: 1.5px solid var(--border);
+            background: var(--card); color: var(--ink-soft);
+            cursor: pointer; white-space: nowrap; flex-shrink: 0;
+            transition: all .3s var(--ease); will-change: transform;
+            touch-action: manipulation; -webkit-tap-highlight-color: transparent;
+            min-height: 44px;
+        }
+        .filter-btn:active, .filter-btn:hover {
+            border-color: var(--gold); color: var(--ink);
+            background: rgba(212,168,64,0.05);
+        }
+        .filter-btn.active {
+            background: linear-gradient(135deg, var(--gold), #D4A843);
+            border-color: var(--gold); color: #1A1A19;
+            box-shadow: 0 6px 20px rgba(212,168,64,0.3);
+        }
+
+        /* ── GRID ──────────────────────────────────────────────────────────── */
+        .grid-wrap {
+            max-width: 1200px; margin: 0 auto;
+            padding: 2.5rem 1.5rem 6rem;
+            padding-bottom: max(6rem, calc(var(--safe-bottom) + 4rem));
+        }
+
+        .category-section { margin-bottom: 3.5rem; }
+        .category-label {
+            display: flex; align-items: center; gap: 1rem;
+            margin-bottom: 1.5rem;
+            animation: labelReveal .6s var(--ease) forwards;
+        }
+        @keyframes labelReveal {
+            0% { opacity: 0; transform: translateY(18px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        .category-label .label-pill {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: .66rem; letter-spacing: .18em; text-transform: uppercase;
+            padding: .35rem .9rem; border-radius: 999px; font-weight: 400;
+            white-space: nowrap;
+        }
+        .label-pill.ai-security { background: var(--ai-bg); color: var(--ai); border: 1px solid rgba(224,112,96,0.22); }
+        .label-pill.systems     { background: var(--sys-bg); color: var(--sys); border: 1px solid rgba(112,168,208,0.22); }
+        .label-pill.edge        { background: var(--edge-bg); color: var(--edge); border: 1px solid rgba(176,128,200,0.22); }
+        .label-pill.edtech      { background: var(--edtech-bg); color: var(--edtech); border: 1px solid rgba(163,102,255,0.22); }
+        .label-pill.green       { background: var(--green-bg); color: var(--green); border: 1px solid rgba(82,183,136,0.22); }
+        .category-label .rule { flex: 1; height: 1px; background: linear-gradient(90deg, var(--border) 0%, transparent 100%); min-width: 20px; }
+
+        .cards-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(min(340px, 100%), 1fr));
+            gap: 1.25rem;
+            animation: gridFadeIn .6s var(--ease) .2s forwards;
+            opacity: 0;
+        }
+        @keyframes gridFadeIn { 0%{opacity:0} 100%{opacity:1} }
+
+        /* ── PROJECT CARD ──────────────────────────────────────────────────── */
+        .pcard {
+            background: linear-gradient(135deg, rgba(50,50,48,0.8) 0%, rgba(36,36,34,0.9) 100%);
+            backdrop-filter: blur(12px) saturate(120%);
+            -webkit-backdrop-filter: blur(12px) saturate(120%);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 1.75rem;
+            position: relative; overflow: hidden;
+            transition: transform .4s var(--ease), box-shadow .4s var(--ease), border-color .3s, opacity 0.6s ease;
+            transform-style: preserve-3d;
+            will-change: transform, opacity;
+            opacity: 0; transform: translateY(28px);
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .pcard.visible { opacity: 1 !important; transform: translateY(0) !important; }
+
+        /* Shine sweep — desktop only */
+        .pcard::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0) 30%, rgba(255,255,255,.08) 50%, rgba(255,255,255,0) 70%);
+            transform: translateX(-120%);
+            transition: transform .6s var(--ease);
+            pointer-events: none; z-index: 1;
+        }
+
+        /* Accent bottom line */
+        .pcard::after {
+            content: ''; position: absolute; bottom: 0; left: 0;
+            height: 2px; width: 0; transition: width .5s var(--ease);
+        }
+        .pcard.ai-security::after { background: linear-gradient(90deg, var(--ai), transparent); }
+        .pcard.systems::after      { background: linear-gradient(90deg, var(--sys), transparent); }
+        .pcard.edge::after         { background: linear-gradient(90deg, var(--edge), transparent); }
+        .pcard.edtech::after       { background: linear-gradient(90deg, var(--edtech), transparent); }
+        .pcard.green::after        { background: linear-gradient(90deg, var(--green), transparent); }
+
+        .pcard-tag {
+            display: inline-block;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: .63rem; letter-spacing: .14em; text-transform: uppercase;
+            padding: .26rem .72rem; border-radius: 999px; margin-bottom: .875rem;
+        }
+        .pcard-tag.ai-security { background: var(--ai-bg); color: var(--ai); border: 1px solid rgba(224,112,96,0.2); }
+        .pcard-tag.systems     { background: var(--sys-bg); color: var(--sys); border: 1px solid rgba(112,168,208,0.2); }
+        .pcard-tag.edge        { background: var(--edge-bg); color: var(--edge); border: 1px solid rgba(176,128,200,0.2); }
+        .pcard-tag.edtech      { background: var(--edtech-bg); color: var(--edtech); border: 1px solid rgba(163,102,255,0.2); }
+        .pcard-tag.green       { background: var(--green-bg); color: var(--green); border: 1px solid rgba(82,183,136,0.2); }
+
+        .pcard h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.45rem; font-weight: 500; line-height: 1.2;
+            color: var(--ink); margin-bottom: .6rem;
+            position: relative; z-index: 2;
+        }
+        .pcard-desc {
+            font-size: .86rem; color: var(--ink-soft); line-height: 1.75;
+            margin-bottom: 1.2rem; position: relative; z-index: 2;
+        }
+        .pcard-tech {
+            display: flex; flex-wrap: wrap; gap: .35rem;
+            margin-bottom: 1.2rem; position: relative; z-index: 2;
+        }
+        .tech-tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: .62rem; letter-spacing: .05em;
+            padding: .22rem .6rem; border-radius: 7px;
+            background: rgba(255,245,230,0.06);
+            border: 1px solid rgba(255,245,230,0.1);
+            color: var(--ink-mid);
+        }
+        .pcard-status {
+            display: flex; align-items: center; gap: .45rem;
+            font-size: .78rem; color: var(--ink-muted);
+            margin-bottom: 1.25rem; position: relative; z-index: 2;
+        }
+        .status-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+        .status-dot.active   { background:#27AE60; box-shadow:0 0 7px rgba(39,174,96,.6); animation:sPulse 2s ease-in-out infinite; }
+        .status-dot.research { background:#F39C12; }
+        .status-dot.planning { background:#555; }
+        @keyframes sPulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+
+        .pcard-links {
+            display: flex; gap: .65rem; flex-wrap: wrap;
+            position: relative; z-index: 2;
+            border-top: 1px solid var(--border);
+            padding-top: 1.1rem;
+        }
+        .pcard-link {
+            display: inline-flex; align-items: center; gap: .4rem;
+            font-size: .76rem; font-weight: 500; letter-spacing: .03em;
+            text-decoration: none; border-radius: 9px;
+            padding: .5rem 1rem;
+            transition: all .25s var(--ease);
+            min-height: 44px;
+            touch-action: manipulation; -webkit-tap-highlight-color: transparent;
+        }
+        .pcard-link.demo { background: var(--gold); color: #1A1A19; }
+        .pcard-link.demo:active { background: #E0B848; transform: scale(0.97); }
+        .pcard-link.gh { border: 1px solid var(--border-h); color: var(--ink-mid); background: transparent; }
+        .pcard-link.gh:active { border-color: var(--gold); color: var(--gold); background: var(--gold-dim); }
+        .pcard-link svg { width:14px; height:14px; flex-shrink:0; }
+        .pcard-link.disabled { opacity: .3; pointer-events: none; border: 1px dashed var(--border); color: var(--ink-muted); background: transparent; }
+        .pcard.hidden, .category-section.hidden { display: none; }
+
+        .empty { text-align: center; padding: 5rem 2rem; display: none; }
+        .empty.show { display: block; }
+        .empty-icon { font-size: 3rem; margin-bottom: 1rem; opacity: .4; }
+        .empty h3 { font-family:'Cormorant Garamond',serif; font-size:1.8rem; color:var(--ink-soft); margin-bottom:.5rem; }
+        .empty p { color:var(--ink-muted); font-size:.9rem; }
+
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 2rem 2.5rem;
+            padding-bottom: max(2rem, calc(var(--safe-bottom) + 1rem));
+            display: flex; justify-content: space-between; align-items: center;
+            flex-wrap: wrap; gap: 1rem;
+            max-width: 1200px; margin: 0 auto;
+        }
+        footer p { font-family:'Cormorant Garamond',serif; font-size:1.1rem; color:var(--ink-soft); font-weight:600; }
+        footer p span { color:var(--gold); }
+        footer a { font-size:.72rem; letter-spacing:.15em; text-transform:uppercase; color:var(--ink-soft); font-weight:600; text-decoration:none; transition:color .2s; }
+        footer a:active { color:var(--gold); }
+
+
+        /* ═══════════════════════════════════════════════════════════════════
+           RESPONSIVE
+           ═══════════════════════════════════════════════════════════════════ */
+
+        /* Desktop hover effects */
+        @media (hover: hover) {
+            .pcard:hover {
+                background: linear-gradient(135deg, rgba(60,60,58,0.9) 0%, rgba(44,44,42,1) 100%);
+                border-color: var(--border-h);
+                box-shadow: 0 24px 60px rgba(0,0,0,0.5), 0 4px 20px rgba(212,168,64,0.08);
+                transform: translateY(-10px) scale(1.02);
+            }
+            .pcard:hover::before { transform: translateX(120%); }
+            .pcard:hover::after { width: 100%; }
+            .filter-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(212,168,64,0.15); }
+            .filter-btn.active { transform: translateY(-2px) scale(1.04); }
+            .pcard-link.demo:hover { background: #E0B848; transform: translateY(-1px); box-shadow: 0 5px 16px rgba(212,168,64,0.35); }
+            .pcard-link.gh:hover { border-color: var(--gold); color: var(--gold); background: var(--gold-dim); transform: translateY(-1px); }
+        }
+
+        /* Tablet */
+        @media (max-width: 900px) {
+            nav { padding: 0 1.5rem; }
+            .nav-links { display: none; }
+            .nav-hamburger { display: flex; }
+
+            .page-hero {
+                padding: calc(var(--nav-h) + 3rem) 1.5rem 2.5rem;
+            }
+
+            .filter-bar {
+                padding: .75rem 1.5rem;
+                justify-content: flex-start;
+            }
+
+            .grid-wrap { padding: 2rem 1.5rem 5rem; }
+
+            .cards-row { grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+            footer { padding-left: 1.5rem; padding-right: 1.5rem; }
+        }
+
+        /* Mobile */
+        @media (max-width: 640px) {
+            :root { --nav-h: 60px; }
+
+            /* Cursor — disable */
+            .c-dot, .c-ring { display: none !important; }
+            body { cursor: auto; }
+
+            /* Nav */
+            nav { padding: 0 1rem; }
+
+            /* Page hero */
+            .page-hero {
+                padding: calc(var(--nav-h) + 2rem) 1.25rem 2rem;
+            }
+            .page-hero h1 { font-size: clamp(2.6rem, 11vw, 4rem); }
+            .page-hero p { font-size: .95rem; }
+
+            /* Filter — single scroll row */
+            .filter-bar {
+                padding: .65rem 1rem;
+                gap: .5rem;
+            }
+            .filter-btn {
+                font-size: .72rem;
+                padding: .48rem 1rem;
+                min-height: 40px;
+            }
+
+            /* Grid — single column */
+            .grid-wrap { padding: 1.5rem 1rem 5rem; }
+            .cards-row { grid-template-columns: 1fr; gap: 1rem; }
+
+            /* Card */
+            .pcard { padding: 1.4rem; border-radius: 14px; }
+            .pcard h3 { font-size: 1.3rem; }
+            .pcard-desc { font-size: .84rem; }
+            .pcard-links { flex-wrap: wrap; }
+            .pcard-link { flex: 1; justify-content: center; min-width: 0; }
+
+            /* Category label */
+            .category-section { margin-bottom: 2.5rem; }
+            .category-label { margin-bottom: 1rem; }
+
+            /* Footer */
+            footer {
+                flex-direction: column; text-align: center;
+                padding-left: 1rem; padding-right: 1rem;
+                gap: .75rem;
+            }
+        }
+
+        /* Small phones */
+        @media (max-width: 380px) {
+            .page-hero { padding-top: calc(var(--nav-h) + 1.5rem); }
+            .pcard { padding: 1.25rem; }
+            .filter-btn { font-size: .68rem; padding: .42rem .85rem; }
+        }
+
+        /* Landscape mobile */
+        @media (max-width: 896px) and (orientation: landscape) and (max-height: 500px) {
+            .page-hero {
+                padding-top: calc(var(--nav-h) + 1.5rem);
+                padding-bottom: 1.5rem;
+            }
+            .cards-row { grid-template-columns: 1fr 1fr; }
+        }
+
+        /* Reduced motion */
+        @media (prefers-reduced-motion: reduce) {
+            body::after { animation: none; }
+            .pcard { transition: opacity .3s; }
+            .page-hero .eyebrow,
+            .page-hero h1,
+            .page-hero p { animation: none; opacity: 1; transform: none; }
+            @keyframes pageEnter { from{opacity:0} to{opacity:1} }
+        }
+    </style>
+</head>
+<body>
+
+<div class="c-dot" id="cDot" aria-hidden="true"></div>
+<div class="c-ring" id="cRing" aria-hidden="true"></div>
+
+<!-- Mobile drawer overlay -->
+<div id="proj-overlay"></div>
+
+<!-- Mobile drawer -->
+<div id="proj-drawer" role="dialog" aria-label="Navigation menu">
+    <div class="drawer-hd">
+        <span class="dlogo">P<span>.</span></span>
+        <button class="drawer-close" id="proj-drawer-close" aria-label="Close menu">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+    </div>
+    <nav class="drawer-nav">
+        <a href="/index.html" class="page-transition"><span class="num">01</span>Home</a>
+        <a href="/index.html#about" class="page-transition"><span class="num">02</span>About</a>
+        <a href="/index.html#skills" class="page-transition"><span class="num">03</span>Skills</a>
+        <a href="/projects.html" class="active-link"><span class="num">04</span>Projects</a>
+        <a href="/index.html#contact" class="page-transition"><span class="num">05</span>Contact</a>
+    </nav>
+    <div class="drawer-foot">
+        <a href="https://github.com/Parik-2006" target="_blank" rel="noopener" class="dfoot-btn" aria-label="GitHub">
+            <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.21 11.39.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.54-1.38-1.33-1.75-1.33-1.75-1.09-.74.08-.73.08-.73 1.2.09 1.84 1.24 1.84 1.24 1.07 1.83 2.8 1.3 3.48.99.11-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 013-.4c1.02.005 2.04.14 3 .4 2.28-1.55 3.29-1.23 3.29-1.23.66 1.66.25 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.49 5.92.43.37.82 1.1.82 2.22v3.29c0 .32.22.7.83.58C20.57 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z"/></svg>
+        </a>
+        <a href="https://linkedin.com/in/parikshith" target="_blank" rel="noopener" class="dfoot-btn" aria-label="LinkedIn">
+            <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.94v5.67H9.37V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 110-4.12 2.06 2.06 0 010 4.12zM7.12 20.45H3.56V9h3.56v11.45zM22.23 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.46c.98 0 1.77-.77 1.77-1.73V1.73C24 .77 23.21 0 22.23 0z"/></svg>
+        </a>
+        <a href="mailto:raptorparik2006@gmail.com" class="dfoot-btn" aria-label="Email">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+        </a>
+    </div>
+</div>
+
+<nav id="navbar">
+    <a href="/index.html" class="nav-logo page-transition">P<span>.</span></a>
+    <div class="nav-links">
+        <a href="/index.html#about" class="page-transition">About</a>
+        <a href="/index.html#skills" class="page-transition">Skills</a>
+        <a href="/projects.html" class="active">Projects</a>
+        <a href="/index.html#contact" class="page-transition">Contact</a>
+    </div>
+    <button class="nav-hamburger" id="proj-hamburger" aria-label="Open navigation" aria-expanded="false" aria-haspopup="dialog">
+        <span class="hbar" style="width:22px;"></span>
+        <span class="hbar" style="width:15px;"></span>
+        <span class="hbar" style="width:22px;"></span>
+    </button>
+</nav>
+
+<div class="page-hero">
+    <div class="eyebrow">All Projects</div>
+    <h1>What I've<br/><em>built.</em></h1>
+    <p>A collection of systems, security tools, and research projects — from bare-metal OS work to distributed cryptography.</p>
+</div>
+
+<div class="filter-bar" id="filterBar">
+    <button class="filter-btn active" data-cat="all">All</button>
+    <button class="filter-btn" data-cat="ai-security">AI · Security</button>
+    <button class="filter-btn" data-cat="systems">Systems</button>
+    <button class="filter-btn" data-cat="edge-edtech">Edge · EdTech</button>
+    <button class="filter-btn" data-cat="green">Green Tech</button>
+</div>
+
+<div class="grid-wrap">
+
+    <!-- AI-SECURITY -->
+    <div class="category-section" id="sec-ai-security" data-section="ai-security">
+        <div class="category-label">
+            <span class="label-pill ai-security">AI · Security</span>
+            <div class="rule"></div>
+        </div>
+        <div class="cards-row">
+
+            <div class="pcard ai-security" data-category="ai-security">
+                <span class="pcard-tag ai-security">AI · Security</span>
+                <h3>ShamirSecurity</h3>
+                <p class="pcard-desc">A distributed password vault implementing Shamir's Secret Sharing with Google OAuth and TOTP 2FA. Vault shards are split cryptographically and distributed — no single point holds the secret. React frontend, Flask backend with AES-256.</p>
+                <div class="pcard-tech">
+                    <span class="tech-tag">React</span><span class="tech-tag">Flask</span><span class="tech-tag">AES-256</span><span class="tech-tag">Shamir SSS</span><span class="tech-tag">OAuth 2.0</span><span class="tech-tag">TOTP</span>
+                </div>
+                <div class="pcard-status"><span class="status-dot active"></span><span>Active Development</span></div>
+                <div class="pcard-links">
+                    <a class="pcard-link demo" href="https://shamirsecurity-1-aclh.onrender.com" target="_blank" rel="noopener">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>Live Demo
+                    </a>
+                    <a class="pcard-link gh" href="https://github.com/Parik-2006/shamirsecurity" target="_blank" rel="noopener">
+                        <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.21 11.39.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.54-1.38-1.33-1.75-1.33-1.75-1.09-.74.08-.73.08-.73 1.2.09 1.84 1.24 1.84 1.24 1.07 1.83 2.8 1.3 3.48.99.11-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 013-.4c1.02.005 2.04.14 3 .4 2.28-1.55 3.29-1.23 3.29-1.23.66 1.66.25 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.49 5.92.43.37.82 1.1.82 2.22v3.29c0 .32.22.7.83.58C20.57 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z"/></svg>GitHub
+                    </a>
+                </div>
+            </div>
+
+            <div class="pcard ai-security" data-category="ai-security">
+                <span class="pcard-tag ai-security">AI · Security</span>
+                <h3>Entropy Prime</h3>
+                <p class="pcard-desc">A zero-trust behavioral biometrics engine. Captures neuromuscular jitter and keystroke dwell/flight times — a 1D-CNN in-browser computes a humanity score (θ). A DQN agent tunes Argon2id hashing strength per login. Bots scoring θ&nbsp;&lt;&nbsp;0.1 get silently redirected into a honeypot.</p>
+                <div class="pcard-tech">
+                    <span class="tech-tag">React</span><span class="tech-tag">TensorFlow.js</span><span class="tech-tag">1D-CNN</span><span class="tech-tag">FastAPI</span><span class="tech-tag">PyTorch</span><span class="tech-tag">DQN</span><span class="tech-tag">Argon2id</span>
+                </div>
+                <div class="pcard-status"><span class="status-dot active"></span><span>Active · Currently Building</span></div>
+                <div class="pcard-links">
+                    <a class="pcard-link demo disabled" href="#" aria-disabled="true">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>Coming Soon
+                    </a>
+                    <a class="pcard-link gh" href="https://github.com/Parik-2006/entropyprime" target="_blank" rel="noopener">
+                        <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.21 11.39.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.54-1.38-1.33-1.75-1.33-1.75-1.09-.74.08-.73.08-.73 1.2.09 1.84 1.24 1.84 1.24 1.07 1.83 2.8 1.3 3.48.99.11-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 013-.4c1.02.005 2.04.14 3 .4 2.28-1.55 3.29-1.23 3.29-1.23.66 1.66.25 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.49 5.92.43.37.82 1.1.82 2.22v3.29c0 .32.22.7.83.58C20.57 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z"/></svg>GitHub
+                    </a>
+                </div>
+            </div>
+
+            <div class="pcard ai-security" data-category="ai-security">
+                <span class="pcard-tag ai-security">AI · Security</span>
+                <h3>MaliciousBot — Phishing Detector</h3>
+                <p class="pcard-desc">Diploma capstone — a Django web app detecting phishing and malicious URLs using ML. Combines Random Forest and Logistic Regression trained on real phishing datasets, extracting features from URL structure, domain reputation, and metadata.</p>
+                <div class="pcard-tech">
+                    <span class="tech-tag">Python</span><span class="tech-tag">Django</span><span class="tech-tag">Scikit-learn</span><span class="tech-tag">Random Forest</span><span class="tech-tag">Pandas</span>
+                </div>
+                <div class="pcard-status"><span class="status-dot active"></span><span>Live · Diploma Capstone</span></div>
+                <div class="pcard-links">
+                    <a class="pcard-link demo" href="https://diploma-project-rwht.onrender.com" target="_blank" rel="noopener">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>Live Demo
+                    </a>
+                    <a class="pcard-link gh" href="https://github.com/Parik-2006/diploma-project" target="_blank" rel="noopener">
+                        <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.21 11.39.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.54-1.38-1.33-1.75-1.33-1.75-1.09-.74.08-.73.08-.73 1.2.09 1.84 1.24 1.84 1.24 1.07 1.83 2.8 1.3 3.48.99.11-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 013-.4c1.02.005 2.04.14 3 .4 2.28-1.55 3.29-1.23 3.29-1.23.66 1.66.25 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.49 5.92.43.37.82 1.1.82 2.22v3.29c0 .32.22.7.83.58C20.57 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z"/></svg>GitHub
+                    </a>
+                </div>
+            </div>
+
+            <div class="pcard ai-security" data-category="ai-security">
+                <span class="pcard-tag ai-security">AI · Security</span>
+                <h3>Smart Attendance System</h3>
+                <p class="pcard-desc">YOLOv8 real-time face detection with FaceNet embeddings and FAISS similarity search. Liveness detection blocks proxy attendance. React + TypeScript dashboard for live check-in; Flutter mobile app for students and teachers; backed by Firebase via FastAPI.</p>
+                <div class="pcard-tech">
+                    <span class="tech-tag">FastAPI</span><span class="tech-tag">YOLOv8</span><span class="tech-tag">FaceNet</span><span class="tech-tag">FAISS</span><span class="tech-tag">React</span><span class="tech-tag">Flutter</span><span class="tech-tag">Firebase</span>
+                </div>
+                <div class="pcard-status"><span class="status-dot active"></span><span>Active · 4th Sem EL · RVCE</span></div>
+                <div class="pcard-links">
+                    <a class="pcard-link gh" href="https://github.com/Parik-2006/daa-4th-sem-el" target="_blank" rel="noopener">
+                        <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.21 11.39.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.54-1.38-1.33-1.75-1.33-1.75-1.09-.74.08-.73.08-.73 1.2.09 1.84 1.24 1.84 1.24 1.07 1.83 2.8 1.3 3.48.99.11-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 013-.4c1.02.005 2.04.14 3 .4 2.28-1.55 3.29-1.23 3.29-1.23.66 1.66.25 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.49 5.92.43.37.82 1.1.82 2.22v3.29c0 .32.22.7.83.58C20.57 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z"/></svg>GitHub
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- SYSTEMS -->
+    <div class="category-section" id="sec-systems" data-section="systems">
+        <div class="category-label">
+            <span class="label-pill systems">Systems Optimization</span>
+            <div class="rule"></div>
+        </div>
+        <div class="cards-row">
+
+            <div class="pcard systems" data-category="systems">
+                <span class="pcard-tag systems">Systems Optimization</span>
+                <h3>OS EL — Kernel Explorations</h3>
+                <p class="pcard-desc">3rd-semester EL project diving into OS internals — process scheduling, memory management primitives, and system call interfaces. Built to understand what actually happens beneath the abstraction layers most developers never touch.</p>
+                <div class="pcard-tech">
+                    <span class="tech-tag">C</span><span class="tech-tag">POSIX</span><span class="tech-tag">Scheduling</span><span class="tech-tag">Memory Mgmt</span><span class="tech-tag">System Calls</span>
+                </div>
+                <div class="pcard-status"><span class="status-dot active"></span><span>Live · 3rd Sem EL</span></div>
+                <div class="pcard-links">
+                    <a class="pcard-link demo" href="https://osel2025.vercel.app/" target="_blank" rel="noopener">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>Live Demo
+                    </a>
+                    <a class="pcard-link gh" href="https://github.com/Parik-2006/OS-EL-3-SEM" target="_blank" rel="noopener">
+                        <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.21 11.39.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.54-1.38-1.33-1.75-1.33-1.75-1.09-.74.08-.73.08-.73 1.2.09 1.84 1.24 1.84 1.24 1.07 1.83 2.8 1.3 3.48.99.11-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 013-.4c1.02.005 2.04.14 3 .4 2.28-1.55 3.29-1.23 3.29-1.23.66 1.66.25 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.49 5.92.43.37.82 1.1.82 2.22v3.29c0 .32.22.7.83.58C20.57 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z"/></svg>GitHub
+                    </a>
+                </div>
+            </div>
+
+            <div class="pcard systems" data-category="systems">
+                <span class="pcard-tag systems">Systems Optimization</span>
+                <h3>DSA EL — Algorithm Visualizer</h3>
+                <p class="pcard-desc">An interactive platform for visualizing sorting, graph traversal, and dynamic programming algorithms. Bridges the gap between theoretical complexity analysis and observable execution.</p>
+                <div class="pcard-tech">
+                    <span class="tech-tag">JavaScript</span><span class="tech-tag">Algorithms</span><span class="tech-tag">Graph Theory</span><span class="tech-tag">DP</span><span class="tech-tag">Sorting</span>
+                </div>
+                <div class="pcard-status"><span class="status-dot active"></span><span>Live · DSA EL</span></div>
+                <div class="pcard-links">
+                    <a class="pcard-link demo" href="https://dsa-el-2.onrender.com/" target="_blank" rel="noopener">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>Live Demo
+                    </a>
+                    <a class="pcard-link gh" href="https://github.com/Parik-2006/DSA-EL-" target="_blank" rel="noopener">
+                        <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.21 11.39.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.54-1.38-1.33-1.75-1.33-1.75-1.09-.74.08-.73.08-.73 1.2.09 1.84 1.24 1.84 1.24 1.07 1.83 2.8 1.3 3.48.99.11-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 013-.4c1.02.005 2.04.14 3 .4 2.28-1.55 3.29-1.23 3.29-1.23.66 1.66.25 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.49 5.92.43.37.82 1.1.82 2.22v3.29c0 .32.22.7.83.58C20.57 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z"/></svg>GitHub
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- EDGE · EDTECH -->
+    <div class="category-section" id="sec-edge-edtech" data-section="edge-edtech">
+        <div class="category-label">
+            <span class="label-pill edtech">Edge · Privacy Tech · EdTech</span>
+            <div class="rule"></div>
+        </div>
+        <div class="cards-row">
+
+            <div class="pcard edtech" data-category="edge-edtech">
+                <span class="pcard-tag edtech">EdTech</span>
+                <h3>CodeMentor.AI</h3>
+                <p class="pcard-desc">An AI-powered adaptive learning platform. Uses LLM agents (GPT-4o / Claude) to deliver personalized tutorials, real-time code review with actionable feedback, and intelligent hint scaffolding. Gamified progress tracking with adaptive difficulty.</p>
+                <div class="pcard-tech">
+                    <span class="tech-tag">React</span><span class="tech-tag">TypeScript</span><span class="tech-tag">FastAPI</span><span class="tech-tag">GPT-4o</span><span class="tech-tag">Claude API</span><span class="tech-tag">PostgreSQL</span><span class="tech-tag">Redis</span>
+                </div>
+                <div class="pcard-status"><span class="status-dot active"></span><span>Active · Currently Building</span></div>
+                <div class="pcard-links">
+                    <a class="pcard-link demo disabled" href="#" aria-disabled="true">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>Coming Soon
+                    </a>
+                    <a class="pcard-link gh" href="https://github.com/Parik-2006/codementor-ai" target="_blank" rel="noopener">
+                        <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.21 11.39.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.54-1.38-1.33-1.75-1.33-1.75-1.09-.74.08-.73.08-.73 1.2.09 1.84 1.24 1.84 1.24 1.07 1.83 2.8 1.3 3.48.99.11-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 013-.4c1.02.005 2.04.14 3 .4 2.28-1.55 3.29-1.23 3.29-1.23.66 1.66.25 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.49 5.92.43.37.82 1.1.82 2.22v3.29c0 .32.22.7.83.58C20.57 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z"/></svg>GitHub
+                    </a>
+                </div>
+            </div>
+
+            <div class="pcard edtech" data-category="edge-edtech">
+                <span class="pcard-tag edtech">EdTech</span>
+                <h3>Find Your Squad</h3>
+                <p class="pcard-desc">A collaborative platform for students to discover teammates for hackathons and coding competitions. Features skill-based team discovery, real-time team chat, direct messaging, and event exploration — built with Next.js and Supabase.</p>
+                <div class="pcard-tech">
+                    <span class="tech-tag">Next.js 14+</span><span class="tech-tag">TypeScript</span><span class="tech-tag">Supabase</span><span class="tech-tag">PostgreSQL</span><span class="tech-tag">Real-time Chat</span>
+                </div>
+                <div class="pcard-status"><span class="status-dot planning"></span><span>Repository Only · MVP</span></div>
+                <div class="pcard-links">
+                    <a class="pcard-link gh" href="https://github.com/Parik-2006/Find_Your_Squad" target="_blank" rel="noopener">
+                        <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.21 11.39.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.54-1.38-1.33-1.75-1.33-1.75-1.09-.74.08-.73.08-.73 1.2.09 1.84 1.24 1.84 1.24 1.07 1.83 2.8 1.3 3.48.99.11-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 013-.4c1.02.005 2.04.14 3 .4 2.28-1.55 3.29-1.23 3.29-1.23.66 1.66.25 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.49 5.92.43.37.82 1.1.82 2.22v3.29c0 .32.22.7.83.58C20.57 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z"/></svg>GitHub
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- GREEN TECH -->
+    <div class="category-section" id="sec-green" data-section="green">
+        <div class="category-label">
+            <span class="label-pill green">Green Tech</span>
+            <div class="rule"></div>
+        </div>
+        <div class="cards-row">
+
+            <div class="pcard green" data-category="green">
+                <span class="pcard-tag green">Green Tech</span>
+                <h3>EVS-EL: Intelligent Waste Segregator</h3>
+                <p class="pcard-desc">A smart waste management dashboard built with Flask. Demonstrates how IoT and digital systems can optimize waste segregation. Features an alarm system for full bins or hazardous waste detection, and a clean dark-mode UI.</p>
+                <div class="pcard-tech">
+                    <span class="tech-tag">Python</span><span class="tech-tag">Flask</span><span class="tech-tag">Jinja2</span><span class="tech-tag">IoT Ready</span>
+                </div>
+                <div class="pcard-status"><span class="status-dot planning"></span><span>Repository Only</span></div>
+                <div class="pcard-links">
+                    <a class="pcard-link gh" href="https://github.com/Parik-2006/EVS-EL" target="_blank" rel="noopener">
+                        <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.21 11.39.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.54-1.38-1.33-1.75-1.33-1.75-1.09-.74.08-.73.08-.73 1.2.09 1.84 1.24 1.84 1.24 1.07 1.83 2.8 1.3 3.48.99.11-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 013-.4c1.02.005 2.04.14 3 .4 2.28-1.55 3.29-1.23 3.29-1.23.66 1.66.25 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.49 5.92.43.37.82 1.1.82 2.22v3.29c0 .32.22.7.83.58C20.57 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z"/></svg>GitHub
+                    </a>
+                </div>
+            </div>
+
+            <div class="pcard green" data-category="green">
+                <span class="pcard-tag green">Green Tech</span>
+                <h3>MicroClimate: Energy Grid Optimizer</h3>
+                <p class="pcard-desc">AI-powered microgrid platform predicting renewable energy with 87% accuracy using LSTM + Transformer ensemble. DQN agents optimize real-time dispatch; reduces peak demand 18-24% and increases renewable integration via federated learning.</p>
+                <div class="pcard-tech">
+                    <span class="tech-tag">PyTorch</span><span class="tech-tag">LSTM</span><span class="tech-tag">Transformer</span><span class="tech-tag">DQN</span><span class="tech-tag">FastAPI</span><span class="tech-tag">React</span><span class="tech-tag">Docker</span>
+                </div>
+                <div class="pcard-status"><span class="status-dot active"></span><span>Active · Currently Building</span></div>
+                <div class="pcard-links">
+                    <a class="pcard-link demo disabled" href="#" aria-disabled="true">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>Coming Soon
+                    </a>
+                    <a class="pcard-link gh" href="https://github.com/Parik-2006/microclimate" target="_blank" rel="noopener">
+                        <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.21 11.39.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.54-1.38-1.33-1.75-1.33-1.75-1.09-.74.08-.73.08-.73 1.2.09 1.84 1.24 1.84 1.24 1.07 1.83 2.8 1.3 3.48.99.11-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 013-.4c1.02.005 2.04.14 3 .4 2.28-1.55 3.29-1.23 3.29-1.23.66 1.66.25 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.49 5.92.43.37.82 1.1.82 2.22v3.29c0 .32.22.7.83.58C20.57 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z"/></svg>GitHub
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="emptyState" class="empty" aria-live="polite">
+        <div class="empty-icon">🔭</div>
+        <h3>Nothing here yet</h3>
+        <p>Check back soon — more projects in this category are coming.</p>
+    </div>
+</div>
+
+<footer>
+    <p>Parikshith <span>·</span> RVCE '28</p>
+    <a href="/index.html" class="page-transition">← Back to Portfolio</a>
+</footer>
+
+<script>
+    // ── DEVICE DETECTION ─────────────────────────────────────────────────────
+    const isTouch = navigator.maxTouchPoints > 0 || 'ontouchstart' in window
+
+    // ── CURSOR (desktop only) ─────────────────────────────────────────────────
+    if (!isTouch) {
+        const dot = document.getElementById('cDot')
+        const ring = document.getElementById('cRing')
+        let rx = 0, ry = 0, mx = 0, my = 0
+
+        window.addEventListener('mousemove', e => {
+            mx = e.clientX; my = e.clientY
+            dot.style.left = mx + 'px'; dot.style.top = my + 'px'
+        }, { passive: true })
+
+        ;(function animRing() {
+            rx += (mx - rx) * .11; ry += (my - ry) * .11
+            ring.style.left = rx + 'px'; ring.style.top = ry + 'px'
+            requestAnimationFrame(animRing)
+        })()
+
+        document.querySelectorAll('a, button, .pcard').forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                dot.style.transform = 'translate(-50%,-50%) scale(2.2)'; dot.style.opacity = '.55'
+                ring.style.width = '52px'; ring.style.height = '52px'; ring.style.borderColor = 'rgba(212,168,64,.7)'
+            })
+            el.addEventListener('mouseleave', () => {
+                dot.style.transform = 'translate(-50%,-50%) scale(1)'; dot.style.opacity = '1'
+                ring.style.width = '32px'; ring.style.height = '32px'; ring.style.borderColor = 'rgba(212,168,64,.4)'
+            })
+        })
+    }
+
+    // ── NAVBAR SCROLL ─────────────────────────────────────────────────────────
+    const nav = document.getElementById('navbar')
+    const filterBar = document.getElementById('filterBar')
+    window.addEventListener('scroll', () => {
+        nav.classList.toggle('scrolled', window.scrollY > 40)
+        filterBar.classList.toggle('stuck', window.scrollY > 120)
+    }, { passive: true })
+
+    // ── MOBILE DRAWER ─────────────────────────────────────────────────────────
+    const drawer = document.getElementById('proj-drawer')
+    const overlay = document.getElementById('proj-overlay')
+    const hamburger = document.getElementById('proj-hamburger')
+    const closeBtn = document.getElementById('proj-drawer-close')
+
+    function openDrawer() {
+        drawer.classList.add('open')
+        overlay.classList.add('visible')
+        hamburger.classList.add('open')
+        hamburger.setAttribute('aria-expanded', 'true')
+        document.body.style.overflow = 'hidden'
+    }
+    function closeDrawer() {
+        drawer.classList.remove('open')
+        overlay.classList.remove('visible')
+        hamburger.classList.remove('open')
+        hamburger.setAttribute('aria-expanded', 'false')
+        document.body.style.overflow = ''
+    }
+
+    hamburger.addEventListener('click', () => drawer.classList.contains('open') ? closeDrawer() : openDrawer())
+    overlay.addEventListener('click', closeDrawer)
+    closeBtn.addEventListener('click', closeDrawer)
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDrawer() })
+
+    // Swipe-to-close
+    let touchStartX = 0
+    drawer.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX }, { passive: true })
+    drawer.addEventListener('touchend', e => { if (e.changedTouches[0].clientX - touchStartX > 55) closeDrawer() }, { passive: true })
+
+    // ── 3D CARD TILT (desktop only) ───────────────────────────────────────────
+    if (!isTouch) {
+        document.querySelectorAll('.pcard').forEach(card => {
+            card.addEventListener('mousemove', e => {
+                const r = card.getBoundingClientRect()
+                const x = (e.clientX - r.left) / r.width - .5
+                const y = (e.clientY - r.top)  / r.height - .5
+                card.style.transform = `translateY(-6px) rotateX(${-y*7}deg) rotateY(${x*7}deg) scale(1.015)`
+            })
+            card.addEventListener('mouseleave', () => { card.style.transform = '' })
+        })
+    }
+
+    // ── FILTER ────────────────────────────────────────────────────────────────
+    const filterBtns = document.querySelectorAll('.filter-btn')
+    const sections   = document.querySelectorAll('.category-section')
+    const cards      = document.querySelectorAll('.pcard')
+    const emptyState = document.getElementById('emptyState')
+
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            filterBtns.forEach(b => b.classList.remove('active'))
+            btn.classList.add('active')
+            const cat = btn.dataset.cat
+
+            if (cat === 'all') {
+                sections.forEach(s => s.classList.remove('hidden'))
+                cards.forEach(c => c.classList.remove('hidden'))
+                emptyState.classList.remove('show')
+            } else {
+                sections.forEach(s => s.classList.toggle('hidden', s.dataset.section !== cat))
+                cards.forEach(c => c.classList.toggle('hidden', c.dataset.category !== cat))
+                emptyState.classList.toggle('show', ![...cards].some(c => c.dataset.category === cat))
+            }
+            requestAnimationFrame(() => triggerReveal())
+        })
+    })
+
+    function triggerReveal() {
+        const obs = new IntersectionObserver(entries => {
+            entries.forEach(e => {
+                if (e.isIntersecting) {
+                    setTimeout(() => e.target.classList.add('visible'), parseFloat(e.target.dataset.delay || 0))
+                    obs.unobserve(e.target)
+                }
+            })
+        }, { threshold: 0.05, rootMargin: '0px 0px -30px 0px' })
+
+        document.querySelectorAll('.pcard:not(.hidden):not(.visible)').forEach((c, i) => {
+            c.dataset.delay = i * 60; obs.observe(c)
+        })
+    }
+
+    document.querySelectorAll('.pcard').forEach((c, i) => { c.dataset.delay = i * 60 })
+    triggerReveal()
+
+    const urlCat = new URLSearchParams(location.search).get('category')
+    if (urlCat) { const m = [...filterBtns].find(b => b.dataset.cat === urlCat); if (m) m.click() }
+
+    // ── PAGE TRANSITIONS ──────────────────────────────────────────────────────
+    document.querySelectorAll('a.page-transition').forEach(link => {
+        link.addEventListener('click', function(e) {
+            const href = this.getAttribute('href')
+            if (!href || href.startsWith('#')) return
+            e.preventDefault()
+            const fadeOverlay = document.createElement('div')
+            Object.assign(fadeOverlay.style, {
+                position: 'fixed', inset: '0', background: '#1A1A19',
+                zIndex: '9999', opacity: '0', transition: 'opacity 0.38s ease-in',
+                pointerEvents: 'none'
+            })
+            document.body.appendChild(fadeOverlay)
+            requestAnimationFrame(() => { fadeOverlay.style.opacity = '1' })
+            setTimeout(() => { window.location.href = href }, 380)
+        })
+    })
+
+    // ── PAGE ENTER ────────────────────────────────────────────────────────────
+    window.addEventListener('load', () => {
+        document.body.classList.add('page-entering')
+        const entryOverlay = document.createElement('div')
+        Object.assign(entryOverlay.style, {
+            position: 'fixed', inset: '0', background: '#1A1A19',
+            zIndex: '9998', opacity: '1', transition: 'opacity 0.42s ease-out',
+            pointerEvents: 'none'
+        })
+        document.body.appendChild(entryOverlay)
+        setTimeout(() => {
+            entryOverlay.style.opacity = '0'
+            setTimeout(() => entryOverlay.remove(), 420)
+            document.body.classList.remove('page-entering')
+        }, 60)
+    })
+</script>
+</body>
+</html>
