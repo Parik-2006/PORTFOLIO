@@ -10,5 +10,13 @@
       "description": "Backend API URL for contact form submissions",
       "default": "https://portfolio-1zzj.onrender.com"
     }
-  }
+  },
+  "public": true,
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/index.html",
+      "status": 200
+    }
+  ]
 }
