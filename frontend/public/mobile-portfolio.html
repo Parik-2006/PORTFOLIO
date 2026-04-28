@@ -17,6 +17,11 @@
       --ease:cubic-bezier(0.23,1,0.32,1);
       --ease2:cubic-bezier(0.16,1,0.3,1);
       --spring:cubic-bezier(0.34,1.56,0.64,1);
+      /* category colours */
+      --ai-c:#C0392B;--ai-bg:rgba(192,57,43,0.08);--ai-bd:rgba(192,57,43,0.20);
+      --sys-c:#1A5276;--sys-bg:rgba(26,82,118,0.08);--sys-bd:rgba(26,82,118,0.20);
+      --edge-c:#6C3483;--edge-bg:rgba(108,52,131,0.08);--edge-bd:rgba(108,52,131,0.20);
+      --grn-c:#1E8449;--grn-bg:rgba(30,132,73,0.08);--grn-bd:rgba(30,132,73,0.20);
     }
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
@@ -118,36 +123,131 @@
     .skill-bar-fill::after{content:'';position:absolute;right:-2px;top:-2px;width:7px;height:7px;border-radius:50%;background:var(--gold);box-shadow:0 0 8px var(--gold),0 0 20px rgba(212,168,67,0.35);opacity:0;transition:opacity 0.3s 1.2s}
     .skill-bar-fill.animated{width:var(--w)}
     .skill-bar-fill.animated::after{opacity:1}
-    .proj-card{border-radius:24px;margin-bottom:14px;position:relative;overflow:hidden;transition:transform 0.3s var(--ease),box-shadow 0.3s var(--ease)}
-    .proj-card.in{animation:cardPop 0.5s var(--spring)}
-    @keyframes cardPop{0%{transform:scale(0.96)}60%{transform:scale(1.015)}100%{transform:scale(1)}}
-    .proj-card:active{transform:scale(0.985)}
-    .proj-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;opacity:0;transition:opacity 0.5s}
-    .proj-card.in::before{opacity:1}
-    .proj-card[data-accent="ai"]::before{background:linear-gradient(90deg,rgba(192,57,43,0.6),transparent)}
-    .proj-card[data-accent="sys"]::before{background:linear-gradient(90deg,rgba(36,113,163,0.6),transparent)}
-    .proj-card[data-accent="edge"]::before{background:linear-gradient(90deg,rgba(125,60,152,0.6),transparent)}
-    .proj-card[data-accent="grn"]::before{background:linear-gradient(90deg,rgba(39,174,96,0.6),transparent)}
-    .proj-card-inner{padding:20px 20px 18px}
-    .proj-cat{font-family:'JetBrains Mono',monospace;font-size:0.60rem;letter-spacing:0.14em;text-transform:uppercase;padding:4px 11px;border-radius:999px;margin-bottom:12px;display:inline-block}
-    .proj-cat.ai{background:rgba(192,57,43,0.09);color:#B03A2E;border:1px solid rgba(192,57,43,0.18)}
-    .proj-cat.sys{background:rgba(36,113,163,0.09);color:#1A5276;border:1px solid rgba(36,113,163,0.18)}
-    .proj-cat.edge{background:rgba(125,60,152,0.09);color:#6C3483;border:1px solid rgba(125,60,152,0.18)}
-    .proj-cat.grn{background:rgba(39,174,96,0.09);color:#1E8449;border:1px solid rgba(39,174,96,0.18)}
-    .proj-title{font-family:'Cormorant Garamond',serif;font-size:1.32rem;font-weight:500;color:var(--ink9);margin-bottom:8px;line-height:1.2}
-    .proj-desc{font-size:0.83rem;color:var(--ink5);line-height:1.72;margin-bottom:14px}
-    .proj-tech{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:14px}
-    .proj-tech span{font-family:'JetBrains Mono',monospace;font-size:0.58rem;letter-spacing:0.06em;color:var(--ink5);background:rgba(26,18,8,0.045);border:1px solid rgba(26,18,8,0.08);padding:3px 8px;border-radius:6px}
-    .proj-footer{display:flex;align-items:center;justify-content:space-between}
-    .proj-status{display:flex;align-items:center;gap:5px;font-size:0.72rem;color:var(--ink3)}
-    .sdot{width:6px;height:6px;border-radius:50%}
-    .sdot.live{background:#27AE60;box-shadow:0 0 6px rgba(39,174,96,0.55);animation:pulse 2.2s ease-in-out infinite}
-    .sdot.wip{background:var(--gold);box-shadow:0 0 6px rgba(212,168,67,0.4);animation:pulse 2s ease-in-out infinite}
-    .sdot.planned{background:var(--ink1)}
-    .proj-link{font-size:0.74rem;font-weight:500;color:var(--gold2);text-decoration:none;display:flex;align-items:center;gap:5px;padding:6px 14px;border-radius:99px;background:rgba(212,168,67,0.08);border:1px solid rgba(212,168,67,0.20);transition:background 0.2s,transform 0.15s var(--spring)}
-    .proj-link:active{transform:scale(0.95);background:rgba(212,168,67,0.18)}
-    .proj-see-all{width:100%;margin-top:6px;padding:16px;border-radius:18px;background:var(--ink9);color:var(--c100);font-size:0.88rem;font-weight:500;letter-spacing:0.05em;text-decoration:none;text-align:center;display:flex;align-items:center;justify-content:center;gap:8px;transition:background 0.3s var(--ease),transform 0.2s var(--spring),box-shadow 0.3s;box-shadow:0 6px 20px rgba(26,18,8,0.18)}
-    .proj-see-all:active{background:var(--gold2);color:var(--c100);transform:scale(0.98)}
+
+    /* ════════════════════════════════════════
+       PROJECTS
+       ════════════════════════════════════════ */
+    #projects { padding-top:66px; }
+
+    /* further projects GitHub CTA */
+    .further-projects-card {
+      display:flex; align-items:center; justify-content:space-between;
+      border-radius:22px; padding:18px 20px;
+      margin-top:6px; text-decoration:none;
+      transition:transform 0.25s var(--spring), box-shadow 0.25s;
+      -webkit-tap-highlight-color:transparent;
+      border:1.5px dashed rgba(212,168,67,0.35);
+      background:rgba(212,168,67,0.04);
+    }
+    .further-projects-card:active { transform:scale(0.97); }
+    .fp-left { display:flex; align-items:center; gap:14px; }
+    .fp-icon {
+      width:44px; height:44px; border-radius:14px; flex-shrink:0;
+      background:rgba(212,168,67,0.10); border:1px solid rgba(212,168,67,0.22);
+      display:flex; align-items:center; justify-content:center;
+    }
+    .fp-icon svg { width:20px; height:20px; fill:var(--gold2); }
+    .fp-title { font-size:0.88rem; font-weight:500; color:var(--ink9); }
+    .fp-sub {
+      font-family:'JetBrains Mono',monospace;
+      font-size:0.62rem; letter-spacing:0.05em; color:var(--gold2); margin-top:3px;
+    }
+    .fp-arrow svg { width:18px; height:18px; stroke:var(--gold2); }
+
+    /* project card */
+    .pj-card {
+      border-radius:22px; margin-bottom:12px;
+      position:relative; overflow:hidden;
+      opacity:0; transform:translateY(20px);
+      transition:opacity 0.55s var(--ease2), transform 0.55s var(--ease2);
+      -webkit-tap-highlight-color:transparent;
+    }
+    .pj-card.in { opacity:1; transform:translateY(0); }
+    .pj-card:active { transform:scale(0.985); }
+
+    /* coloured left spine */
+    .pj-card::before {
+      content:''; position:absolute; top:14px; bottom:14px; left:0;
+      width:3px; border-radius:0 3px 3px 0;
+      opacity:0; transition:opacity 0.5s;
+    }
+    .pj-card.in::before { opacity:1; }
+    .pj-card.ai::before   { background:linear-gradient(to bottom,var(--ai-c),transparent); }
+    .pj-card.sys::before  { background:linear-gradient(to bottom,var(--sys-c),transparent); }
+    .pj-card.edge::before { background:linear-gradient(to bottom,var(--edge-c),transparent); }
+    .pj-card.grn::before  { background:linear-gradient(to bottom,var(--grn-c),transparent); }
+
+    .pj-inner { padding:16px 16px 15px 20px; }
+
+    .pj-tag {
+      font-family:'JetBrains Mono',monospace;
+      font-size:0.57rem; letter-spacing:0.13em; text-transform:uppercase;
+      padding:3px 10px; border-radius:999px; margin-bottom:9px; display:inline-block;
+    }
+    .pj-tag.ai   { background:var(--ai-bg);  color:var(--ai-c);  border:1px solid var(--ai-bd); }
+    .pj-tag.sys  { background:var(--sys-bg); color:var(--sys-c); border:1px solid var(--sys-bd); }
+    .pj-tag.edge { background:var(--edge-bg);color:var(--edge-c);border:1px solid var(--edge-bd); }
+    .pj-tag.grn  { background:var(--grn-bg); color:var(--grn-c); border:1px solid var(--grn-bd); }
+
+    .pj-title {
+      font-family:'Cormorant Garamond',serif;
+      font-size:1.22rem; font-weight:500; line-height:1.18; color:var(--ink9);
+      margin-bottom:7px;
+    }
+    .pj-desc {
+      font-size:0.80rem; color:var(--ink5); line-height:1.70; margin-bottom:11px;
+    }
+    .pj-tech {
+      display:flex; flex-wrap:wrap; gap:5px; margin-bottom:11px;
+    }
+    .pj-tech span {
+      font-family:'JetBrains Mono',monospace;
+      font-size:0.56rem; letter-spacing:0.05em;
+      color:var(--ink5); background:rgba(26,18,8,0.045);
+      border:1px solid rgba(26,18,8,0.09);
+      padding:3px 7px; border-radius:6px;
+    }
+    .pj-footer {
+      display:flex; align-items:center; justify-content:space-between;
+      border-top:1px solid rgba(212,168,67,0.10);
+      padding-top:11px;
+    }
+    .pj-status {
+      display:flex; align-items:center; gap:5px;
+      font-size:0.69rem; color:var(--ink3);
+    }
+    .sdot { width:6px; height:6px; border-radius:50%; flex-shrink:0; }
+    .sdot.live    { background:#27AE60; box-shadow:0 0 6px rgba(39,174,96,.55); animation:pulse 2.2s ease-in-out infinite; }
+    .sdot.wip     { background:var(--gold); box-shadow:0 0 6px rgba(212,168,67,.4); animation:pulse 2s ease-in-out infinite; }
+    .sdot.planned { background:var(--ink1); }
+
+    .pj-links { display:flex; gap:6px; }
+    .pj-link {
+      display:inline-flex; align-items:center; gap:5px;
+      font-size:0.70rem; font-weight:500;
+      text-decoration:none; padding:6px 12px; border-radius:999px;
+      transition:all 0.2s var(--ease);
+      -webkit-tap-highlight-color:transparent;
+    }
+    .pj-link:active { transform:scale(0.93); }
+    .pj-link.demo {
+      background:var(--gold); color:#1A1208;
+      box-shadow:0 3px 10px rgba(212,168,67,.28);
+    }
+    .pj-link.demo:active { background:var(--gold2); }
+    .pj-link.gh {
+      border:1.5px solid rgba(212,168,67,.22);
+      color:var(--ink5); background:rgba(253,250,240,.5);
+    }
+    .pj-link.gh:active { border-color:var(--gold); color:var(--gold2); }
+    .pj-link.disabled {
+      opacity:.30; pointer-events:none;
+      border:1.5px dashed rgba(212,168,67,.18); color:var(--ink3); background:transparent;
+    }
+    .pj-link svg { width:11px; height:11px; }
+
+    /* ════ END PROJECTS ════ */
+
     .contact-card{border-radius:20px;margin-bottom:11px;padding:17px 20px;display:flex;align-items:center;gap:14px;text-decoration:none;transition:transform 0.25s var(--spring),box-shadow 0.25s}
     .contact-card:active{transform:scale(0.97)}
     .contact-icon{width:44px;height:44px;border-radius:14px;background:rgba(212,168,67,0.10);border:1px solid rgba(212,168,67,0.16);display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 2px 8px rgba(212,168,67,0.08)}
@@ -198,11 +298,15 @@
   <div class="orb orb-3"></div>
   <div class="orb orb-4"></div>
   <canvas id="mob-canvas"></canvas>
+
   <nav class="top-nav" id="topNav">
     <a href="#hero" class="nav-logo">P<span>.</span></a>
     <div class="nav-badge">Available</div>
   </nav>
+
   <div class="wrapper">
+
+    <!-- ─── HERO ─────────────────────────── -->
     <section id="hero" style="position:relative">
       <div class="hero-shimmer"></div>
       <div class="hero-eyebrow">CSE &middot; RVCE '28</div>
@@ -231,7 +335,10 @@
       </div>
       <div class="scroll-cue"><div class="scroll-cue-line"></div><span>Scroll</span></div>
     </section>
+
     <div class="divider"></div>
+
+    <!-- ─── ABOUT ─────────────────────────── -->
     <section id="about">
       <p class="sec-label reveal">About Me</p>
       <h2 class="sec-heading reveal" style="transition-delay:0.05s">Systems thinker.<br/><em>Security builder.</em></h2>
@@ -241,7 +348,10 @@
       <div class="about-card glass-dark reveal reveal-left" style="transition-delay:0.28s"><div class="about-card-label">Background</div><div class="about-card-val">Diploma &rarr; CSE Lateral Entry &rarr; RVCE</div></div>
       <div class="about-card glass-dark reveal reveal-left" style="transition-delay:0.34s"><div class="about-card-label">Focus</div><div class="about-card-val">Embedded roots, security mindset</div></div>
     </section>
+
     <div class="divider"></div>
+
+    <!-- ─── SKILLS ─────────────────────────── -->
     <section id="skills">
       <p class="sec-label reveal">Expertise</p>
       <h2 class="sec-heading reveal" style="transition-delay:0.05s">What I work with.</h2>
@@ -271,17 +381,87 @@
         <div class="skill-badges"><span class="sbadge">JavaScript</span><span class="sbadge">Python</span><span class="sbadge">React</span><span class="sbadge">Flask</span><span class="sbadge">Supabase</span><span class="sbadge">OAuth / TOTP</span></div>
       </div>
     </section>
+
     <div class="divider"></div>
+
+    <!-- ─── PROJECTS ─────────────────────────── -->
     <section id="projects">
       <p class="sec-label reveal">Work</p>
       <h2 class="sec-heading reveal" style="transition-delay:0.05s">What I've <em>built.</em></h2>
-      <div class="proj-card glass reveal" data-accent="ai" style="transition-delay:0.10s"><div class="proj-card-inner"><span class="proj-cat ai">AI &middot; Security</span><div class="proj-title">ShamirSecurity</div><div class="proj-desc">Distributed password vault using Shamir's Secret Sharing with Google OAuth, TOTP 2FA, and AES-256. No single point holds the secret.</div><div class="proj-tech"><span>React</span><span>Flask</span><span>AES-256</span><span>Shamir SSS</span><span>OAuth 2.0</span></div><div class="proj-footer"><div class="proj-status"><span class="sdot live"></span>Active</div><a href="https://shamirsecurity-1-aclh.onrender.com" target="_blank" rel="noopener" class="proj-link">Live Demo <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg></a></div></div></div>
-      <div class="proj-card glass reveal" data-accent="ai" style="transition-delay:0.17s"><div class="proj-card-inner"><span class="proj-cat ai">AI &middot; Security</span><div class="proj-title">Entropy Prime</div><div class="proj-desc">Zero-trust behavioral biometrics engine. 1D-CNN runs in-browser computing a humanity score. DQN agent tunes Argon2id hashing per login dynamically.</div><div class="proj-tech"><span>TensorFlow.js</span><span>1D-CNN</span><span>FastAPI</span><span>DQN</span><span>Argon2id</span></div><div class="proj-footer"><div class="proj-status"><span class="sdot wip"></span>Building</div><a href="https://github.com/Parik-2006/entropyprime" target="_blank" rel="noopener" class="proj-link">GitHub <svg width="12" height="12" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.21 11.39.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.54-1.38-1.33-1.75-1.33-1.75-1.09-.74.08-.73.08-.73 1.2.09 1.84 1.24 1.84 1.24 1.07 1.83 2.8 1.3 3.48.99.11-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 013-.4c1.02.005 2.04.14 3 .4 2.28-1.55 3.29-1.23 3.29-1.23.66 1.66.25 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.49 5.92.43.37.82 1.1.82 2.22v3.29c0 .32.22.7.83.58C20.57 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z"/></svg></a></div></div></div>
-      <div class="proj-card glass reveal" data-accent="ai" style="transition-delay:0.24s"><div class="proj-card-inner"><span class="proj-cat ai">AI &middot; Security</span><div class="proj-title">MaliciousBot &mdash; Phishing Detector</div><div class="proj-desc">Django web app detecting phishing URLs using Random Forest + Logistic Regression. Goes beyond static blacklists with an AI composite scoring engine.</div><div class="proj-tech"><span>Python</span><span>Django</span><span>Scikit-learn</span><span>Random Forest</span></div><div class="proj-footer"><div class="proj-status"><span class="sdot live"></span>Live &middot; Diploma Capstone</div><a href="https://diploma-project-rwht.onrender.com" target="_blank" rel="noopener" class="proj-link">Demo <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg></a></div></div></div>
-      <div class="proj-card glass reveal" data-accent="sys" style="transition-delay:0.31s"><div class="proj-card-inner"><span class="proj-cat sys">Systems</span><div class="proj-title">OS EL &mdash; Kernel Explorations</div><div class="proj-desc">Diving into OS internals &mdash; process scheduling, memory management primitives, and system call interfaces. Beneath the abstraction layers.</div><div class="proj-tech"><span>C</span><span>POSIX</span><span>Scheduling</span><span>Memory Mgmt</span></div><div class="proj-footer"><div class="proj-status"><span class="sdot live"></span>Live &middot; 3rd Sem EL</div><a href="https://osel2025.vercel.app/" target="_blank" rel="noopener" class="proj-link">Demo <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg></a></div></div></div>
-      <a href="/projects.html" class="proj-see-all reveal" style="transition-delay:0.38s">View All Projects <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></a>
-    </section>
+
+      <!-- card 1: ShamirSecurity -->
+      <div class="pj-card glass ai reveal" style="transition-delay:0.10s">
+        <div class="pj-inner">
+          <span class="pj-tag ai">AI · Security</span>
+          <div class="pj-title">ShamirSecurity</div>
+          <div class="pj-desc">Distributed password vault using Shamir's Secret Sharing with Google OAuth and TOTP 2FA. Vault shards split cryptographically — no single point holds the secret. React + Flask + AES-256.</div>
+          <div class="pj-tech"><span>React</span><span>Flask</span><span>AES-256</span><span>Shamir SSS</span><span>OAuth 2.0</span><span>TOTP</span></div>
+          <div class="pj-footer">
+            <div class="pj-status"><span class="sdot live"></span>Active</div>
+            <div class="pj-links">
+              <a class="pj-link demo" href="https://shamirsecurity-1-aclh.onrender.com" target="_blank" rel="noopener"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>Demo</a>
+              <a class="pj-link gh" href="https://github.com/Parik-2006/shamirsecurity" target="_blank" rel="noopener"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.21 11.39.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.54-1.38-1.33-1.75-1.33-1.75-1.09-.74.08-.73.08-.73 1.2.09 1.84 1.24 1.84 1.24 1.07 1.83 2.8 1.3 3.48.99.11-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 013-.4c1.02.005 2.04.14 3 .4 2.28-1.55 3.29-1.23 3.29-1.23.66 1.66.25 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.49 5.92.43.37.82 1.1.82 2.22v3.29c0 .32.22.7.83.58C20.57 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z"/></svg>GitHub</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- card 2: Entropy Prime -->
+      <div class="pj-card glass ai reveal" style="transition-delay:0.18s">
+        <div class="pj-inner">
+          <span class="pj-tag ai">AI · Security</span>
+          <div class="pj-title">Entropy Prime</div>
+          <div class="pj-desc">Zero-trust behavioral biometrics engine. 1D-CNN runs in-browser computing a humanity score (θ). DQN agent dynamically tunes Argon2id hashing per login. Bots scoring θ&lt;0.1 get silently honeypotted.</div>
+          <div class="pj-tech"><span>TensorFlow.js</span><span>1D-CNN</span><span>FastAPI</span><span>DQN</span><span>Argon2id</span><span>PyTorch</span></div>
+          <div class="pj-footer">
+            <div class="pj-status"><span class="sdot wip"></span>Building</div>
+            <div class="pj-links">
+              <span class="pj-link disabled"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>Soon</span>
+              <a class="pj-link gh" href="https://github.com/Parik-2006/entropyprime" target="_blank" rel="noopener"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.21 11.39.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.54-1.38-1.33-1.75-1.33-1.75-1.09-.74.08-.73.08-.73 1.2.09 1.84 1.24 1.84 1.24 1.07 1.83 2.8 1.3 3.48.99.11-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 013-.4c1.02.005 2.04.14 3 .4 2.28-1.55 3.29-1.23 3.29-1.23.66 1.66.25 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.49 5.92.43.37.82 1.1.82 2.22v3.29c0 .32.22.7.83.58C20.57 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z"/></svg>GitHub</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- card 3: MaliciousBot -->
+      <div class="pj-card glass ai reveal" style="transition-delay:0.26s">
+        <div class="pj-inner">
+          <span class="pj-tag ai">AI · Security</span>
+          <div class="pj-title">MaliciousBot — Phishing Detector</div>
+          <div class="pj-desc">Diploma capstone. Django web app detecting phishing URLs using Random Forest + Logistic Regression. AI-powered composite scoring goes beyond static blacklists.</div>
+          <div class="pj-tech"><span>Python</span><span>Django</span><span>Scikit-learn</span><span>Random Forest</span><span>Pandas</span></div>
+          <div class="pj-footer">
+            <div class="pj-status"><span class="sdot live"></span>Live · Diploma</div>
+            <div class="pj-links">
+              <a class="pj-link demo" href="https://diploma-project-rwht.onrender.com" target="_blank" rel="noopener"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>Demo</a>
+              <a class="pj-link gh" href="https://github.com/Parik-2006/diploma-project" target="_blank" rel="noopener"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.21 11.39.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.54-1.38-1.33-1.75-1.33-1.75-1.09-.74.08-.73.08-.73 1.2.09 1.84 1.24 1.84 1.24 1.07 1.83 2.8 1.3 3.48.99.11-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 013-.4c1.02.005 2.04.14 3 .4 2.28-1.55 3.29-1.23 3.29-1.23.66 1.66.25 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.49 5.92.43.37.82 1.1.82 2.22v3.29c0 .32.22.7.83.58C20.57 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z"/></svg>GitHub</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- further projects CTA -->
+      <a href="https://github.com/Parik-2006" target="_blank" rel="noopener"
+         class="further-projects-card glass reveal" style="transition-delay:0.34s">
+        <div class="fp-left">
+          <div class="fp-icon">
+            <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.21 11.39.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.54-1.38-1.33-1.75-1.33-1.75-1.09-.74.08-.73.08-.73 1.2.09 1.84 1.24 1.84 1.24 1.07 1.83 2.8 1.3 3.48.99.11-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 013-.4c1.02.005 2.04.14 3 .4 2.28-1.55 3.29-1.23 3.29-1.23.66 1.66.25 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.49 5.92.43.37.82 1.1.82 2.22v3.29c0 .32.22.7.83.58C20.57 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z"/></svg>
+          </div>
+          <div>
+            <div class="fp-title">Further projects</div>
+            <div class="fp-sub">github.com/Parik-2006</div>
+          </div>
+        </div>
+        <div class="fp-arrow">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+        </div>
+      </a>
+
+    </section><!-- /projects -->
+
     <div class="divider"></div>
+
+    <!-- ─── CONTACT ─────────────────────────── -->
     <section id="contact">
       <p class="sec-label reveal">Contact</p>
       <h2 class="sec-heading reveal" style="transition-delay:0.05s">Let's build <em>something.</em></h2>
@@ -297,8 +477,11 @@
         <button class="send-btn" id="m-send">Send Message &rarr;</button>
       </div>
     </section>
+
     <div class="footer"><div class="footer-logo">Parikshith <span>&middot;</span> RVCE '28</div><div class="footer-sub">Built with care &mdash; cream, glass &amp; gold.</div></div>
-  </div>
+  </div><!-- /wrapper -->
+
+  <!-- BOTTOM NAV -->
   <nav class="bottom-nav">
     <div class="bnav-inner" id="bnavInner">
       <div class="bnav-pill" id="bnavPill"></div>
@@ -309,7 +492,9 @@
       <a href="#contact" class="bnav-btn" data-sec="contact"><div class="bnav-icon"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"/></svg></div><span class="bnav-label">Contact</span></a>
     </div>
   </nav>
+
   <script>
+  /* ── canvas bg ── */
   (function(){
     const cv=document.getElementById('mob-canvas'),cx=cv.getContext('2d');
     let W,H;
@@ -343,6 +528,8 @@
     }
     tick();
   })();
+
+  /* ── scroll reveal (general) ── */
   const allR=document.querySelectorAll('.reveal,.reveal-left,.reveal-right,.reveal-scale');
   const ro=new IntersectionObserver(entries=>{
     entries.forEach(e=>{
@@ -353,14 +540,22 @@
     });
   },{threshold:.10,rootMargin:'0px 0px -36px 0px'});
   allR.forEach(el=>ro.observe(el));
+
+  /* ── sec-label line ── */
   const lObs=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('in');lObs.unobserve(x.target);}}),{threshold:.5});
   document.querySelectorAll('.sec-label').forEach(l=>lObs.observe(l));
+
+  /* ── typewriter ── */
   const twEl=document.getElementById('tw');
   const phrases=['systems & security.','cryptography.','embedded kernels.','distributed systems.','network defense.'];
   let pi=0,ci=0,del=false;
   function tl(){const c=phrases[pi];twEl.textContent=del?c.slice(0,--ci):c.slice(0,++ci);let d=del?38:72;if(!del&&ci===c.length){d=1900;del=true;}else if(del&&ci===0){del=false;pi=(pi+1)%phrases.length;d=280;}setTimeout(tl,d);}
   setTimeout(tl,1100);
+
+  /* ── top nav scroll ── */
   window.addEventListener('scroll',()=>document.getElementById('topNav').classList.toggle('scrolled',scrollY>28),{passive:true});
+
+  /* ── bottom nav pill ── */
   const bnBtns=[...document.querySelectorAll('.bnav-btn')],pill=document.getElementById('bnavPill');
   function movePill(btn){const ir=document.getElementById('bnavInner').getBoundingClientRect(),br=btn.getBoundingClientRect();pill.style.left=(br.left-ir.left)+'px';pill.style.width=br.width+'px';}
   function setActive(id){bnBtns.forEach(b=>b.classList.toggle('active',b.dataset.sec===id));const a=bnBtns.find(b=>b.dataset.sec===id);if(a)movePill(a);}
@@ -368,7 +563,32 @@
   const sObs=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting)setActive(x.target.id);}),{threshold:.35});
   ['hero','about','skills','projects','contact'].forEach(id=>{const el=document.getElementById(id);if(el)sObs.observe(el);});
   bnBtns.forEach(btn=>btn.addEventListener('click',e=>{const h=btn.getAttribute('href');if(h&&h.startsWith('#')){e.preventDefault();document.querySelector(h)?.scrollIntoView({behavior:'smooth'});setActive(btn.dataset.sec);}}));
+
+  /* ── ripple ── */
   document.querySelectorAll('.ripple-wrap').forEach(el=>el.addEventListener('click',function(e){const r=this.getBoundingClientRect(),rip=document.createElement('span'),s=Math.max(r.width,r.height)*1.2;rip.className='ripple';rip.style.cssText=`width:${s}px;height:${s}px;left:${e.clientX-r.left-s/2}px;top:${e.clientY-r.top-s/2}px`;this.appendChild(rip);setTimeout(()=>rip.remove(),600);}));
+
+  /* ── card reveal for project cards ── */
+  (function(){
+    function triggerCardReveal() {
+      const obs = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            const delay = parseFloat(e.target.dataset.delay || 0);
+            setTimeout(() => e.target.classList.add('in'), delay);
+            obs.unobserve(e.target);
+          }
+        });
+      }, { threshold: 0.06, rootMargin: '0px 0px -20px 0px' });
+
+      document.querySelectorAll('.pj-card:not(.in)').forEach((c, i) => {
+        c.dataset.delay = i * 70;
+        obs.observe(c);
+      });
+    }
+    triggerCardReveal();
+  })();
+
+  /* ── contact form ── */
   document.getElementById('m-send').addEventListener('click',async()=>{
     const name=document.getElementById('m-name').value.trim(),email=document.getElementById('m-email').value.trim(),message=document.getElementById('m-msg').value.trim();
     const fb=document.getElementById('form-feedback'),btn=document.getElementById('m-send');
